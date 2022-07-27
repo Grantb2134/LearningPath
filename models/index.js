@@ -1,4 +1,3 @@
-const mysql = require('mysql2');
 const dbConfig = require('../config/dbConfig.js');
 const {Sequelize, DataTypes} = require('sequelize');
 require('dotenv').config()
@@ -41,7 +40,7 @@ dataBase.paths = require('../models/paths')(sequelizeDb, DataTypes)
 dataBase.concepts = require('../models/concepts')(sequelizeDb, DataTypes)
 dataBase.contents = require('../models/content')(sequelizeDb, DataTypes)
 
-dataBase.sequelizeDb.sync({ force: false })
+dataBase.sequelizeDb.sync({ force: true })
 .then(() => {
     console.log('yes re-sync done!')
 })
