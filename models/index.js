@@ -39,7 +39,7 @@ dataBase.paths = require('./paths')(sequelizeDb, DataTypes);
 dataBase.concepts = require('./concepts')(sequelizeDb, DataTypes);
 dataBase.contents = require('./content')(sequelizeDb, DataTypes);
 
-dataBase.sequelizeDb.sync({ force: true })
+dataBase.sequelizeDb.sync({ force: false })
   .then(() => {
     console.log('yes re-sync done!');
   });

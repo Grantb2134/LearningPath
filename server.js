@@ -1,10 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const users = require('./controllers/users');
 
 const app = express();
 const PORT = 5006;
 app.use(cors());
 app.use(express.json());
+
+app.use('/api/users', users);
 
 app.get('/', (req, res) => res.send('TEST!'));
 
