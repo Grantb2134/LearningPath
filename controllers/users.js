@@ -9,7 +9,7 @@ const User = db.users;
 
 // @route    GET api/users
 // @desc     Get users
-// @access   Public
+// @access
 router.get('/', async (req, res) => {
   try {
     const allUsers = await User.findAll();
@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
 
 // @route    GET api/users/:id
 // @desc     Get user by ID
-// @access   Public
+// @access
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -57,7 +57,7 @@ router.get('/:id', async (req, res) => {
 
 // @route    POST api/users
 // @desc     POST user
-// @access   Private
+// @access
 router.post('/', async (req, res) => {
   const { username, email, password } = req.body.user;
 
@@ -106,7 +106,7 @@ router.post('/', async (req, res) => {
 
 // @route    DELETE api/users/:id
 // @desc     DELETE user
-// @access   Private
+// @access
 router.delete('/:id', async (req, res) => {
   try {
     const user = await User.destroy({
@@ -134,7 +134,7 @@ router.delete('/:id', async (req, res) => {
 
 // @route    PUT api/users/password/:id
 // @desc     PUT user password
-// @access   Private
+// @access
 router.put('/password/:id', async (req, res) => {
   try {
     const { user } = req.body;
