@@ -56,8 +56,8 @@ router.get('/:id', async (req, res) => {
 });
 
 // @route    POST api/users
-// @desc     POST user
-// @access
+// @desc     Create a user
+
 router.post('/', async (req, res) => {
   const { username, email, password } = req.body.user;
 
@@ -133,7 +133,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 // @route    PUT api/users/password/:id
-// @desc     PUT user password
+// @desc     Edit user password
 // @access
 router.put('/password/:id', async (req, res) => {
   try {
