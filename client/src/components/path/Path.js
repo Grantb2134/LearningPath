@@ -1,12 +1,11 @@
 import React from 'react';
 
-const Path = () => {
-
-	return(
-		<div>
-			Path page
-		</div>
-	)
+function Path() {
+  return (
+    <div>
+      Path page
+    </div>
+  );
 }
 
-export default Path
+export default Path;

@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
@@ -13,26 +14,24 @@ import Concept from './components/concept/Concept';
 import CreateConcept from './components/concept/Create';
 import EditConcept from './components/concept/Edit';
 
-
-
 function App() {
   return (
     <Router>
-			<Navbar />
-			<Routes>
-				<Route path="/" element={<Landing />} />
-				<Route path="/dashboard" element={<Dashboard />} />
-				<Route path="/user/:id" element={<User />} />
-				<Route path="/auth/register" element={<Register />} />
-				<Route path="/auth/login" element={<Login />} />
-				<Route path="/path/:id" element={<Path />} />
-				<Route path="/path/create" element={<CreatePath />} />
-				<Route path="/path/edit/:id" element={<EditPath />} />
-				<Route path="/concept/:id" element={<Concept />} />
-				<Route path="/concept/create" element={<CreateConcept />} />
-				<Route path="/concept/edit/:id" element={<EditConcept />} />
-			</Routes>
-		</Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/user/:id" element={<User />} />
+        <Route path="/auth/register" element={<Register />} />
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/path/:id" element={<Path />} />
+        <Route path="/path/create" element={<CreatePath />} />
+        <Route path="/path/edit/:id" element={<EditPath />} />
+        <Route path="/concept/:id" element={<Concept />} />
+        <Route path="/concept/create" element={<CreateConcept />} />
+        <Route path="/concept/edit/:id" element={<EditConcept />} />
+      </Routes>
+    </Router>
   );
 }
 

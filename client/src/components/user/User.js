@@ -1,12 +1,11 @@
 import React from 'react';
 
-const User = () => {
-
-	return(
-		<div>
-			User Page
-		</div>
-	)
+function User() {
+  return (
+    <div>
+      User Page
+    </div>
+  );
 }
 
-export default User
+export default User;
