@@ -39,7 +39,7 @@ dataBase.paths = require('./paths')(sequelizeDb, DataTypes);
 dataBase.concepts = require('./concepts')(sequelizeDb, DataTypes);
 dataBase.contents = require('./content')(sequelizeDb, DataTypes);
 
-dataBase.sequelizeDb.sync({ force: true })
+dataBase.sequelizeDb.sync({ force: false })
   .then(() => {
     console.log('yes re-sync done!');
   });
@@ -48,6 +48,7 @@ dataBase.users.hasMany(dataBase.paths, {
   as: 'path',
   foreignKey: 'userId',
   onDelete: 'cascade',
+  onUpdate: 'cascade',
   hooks: true,
 
 });
@@ -56,6 +57,7 @@ dataBase.paths.belongsTo(dataBase.users, {
   foreignKey: 'userId',
   as: 'user',
   onDelete: 'cascade',
+  onUpdate: 'cascade',
   hooks: true,
 
 });
@@ -64,6 +66,7 @@ dataBase.paths.hasMany(dataBase.concepts, {
   as: 'concept',
   foreignKey: 'userId',
   onDelete: 'cascade',
+  onUpdate: 'cascade',
   hooks: true,
 });
 
@@ -71,6 +74,7 @@ dataBase.concepts.belongsTo(dataBase.paths, {
   foreignKey: 'pathId',
   as: 'path',
   onDelete: 'cascade',
+  onUpdate: 'cascade',
   hooks: true,
 });
 
@@ -78,6 +82,7 @@ dataBase.concepts.hasMany(dataBase.contents, {
   as: 'content',
   foreignKey: 'userId',
   onDelete: 'cascade',
+  onUpdate: 'cascade',
   hooks: true,
 });
 
@@ -85,6 +90,7 @@ dataBase.contents.belongsTo(dataBase.concepts, {
   foreignKey: 'conceptId',
   as: 'concept',
   onDelete: 'cascade',
+  onUpdate: 'cascade',
   hooks: true,
 });
 
