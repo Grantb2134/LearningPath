@@ -7,6 +7,7 @@
     "start": "node ./bin/www",
     "server": "nodemon server",
     "client": "set port=3030 && npm start --prefix client",
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
     "lint": "npx eslint \"**/*.js\" --fix",
     "prepare": "husky install",
     "pre-commit": "npm run lint"
