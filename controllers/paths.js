@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const db = require('../models');
+const auth = require('../middleware/auth');
 
 const Path = db.paths;
 
@@ -81,7 +82,7 @@ router.get('/user/:userId', async (req, res) => {
 // @route    POST api/paths
 // @desc     Create a path
 // @access
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   const {
     title, description, userId,
   } = req.body;
@@ -110,7 +111,7 @@ router.post('/', async (req, res) => {
 // @route    PUT api/paths/:id
 // @desc     Edit a path
 // @access
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
   const { title, description } = req.body;
   try {
     const editPath = await Path.update(
@@ -138,7 +139,7 @@ router.put('/:id', async (req, res) => {
 // @route    DELETE api/paths/:id
 // @desc     Delete a path
 // @access
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const path = await Path.destroy({
       where: {

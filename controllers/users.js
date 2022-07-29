@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../models');
+const auth = require('../middleware/auth');
 
 const User = db.users;
 
@@ -135,7 +136,7 @@ router.delete('/:id', async (req, res) => {
 // @route    PUT api/users/password/:id
 // @desc     Edit user password
 // @access
-router.put('/password/:id', async (req, res) => {
+router.put('/password/:id', auth, async (req, res) => {
   try {
     const { user } = req.body;
     const salt = await bcrypt.genSalt(10);
