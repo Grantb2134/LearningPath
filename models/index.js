@@ -62,7 +62,7 @@ dataBase.paths.belongsTo(dataBase.users, {
 
 dataBase.paths.hasMany(dataBase.concepts, {
   as: 'concept',
-  foreignKey: 'userId',
+  foreignKey: 'pathId',
   onDelete: 'cascade',
   hooks: true,
 });
@@ -76,7 +76,7 @@ dataBase.concepts.belongsTo(dataBase.paths, {
 
 dataBase.concepts.hasMany(dataBase.contents, {
   as: 'content',
-  foreignKey: 'userId',
+  foreignKey: 'conceptId',
   onDelete: 'cascade',
   hooks: true,
 });
