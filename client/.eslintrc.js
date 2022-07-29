@@ -27,6 +27,7 @@ module.exports = {
   rules: {
     'react/prop-types': 'off',
     'no-plusplus': 'off',
+    'no-param-reassign': 0,
     'react/no-array-index-key': 'off',
     'react/button-has-type': 'off',
     'react/jsx-boolean-value': 'off',
