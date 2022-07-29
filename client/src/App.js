@@ -1,8 +1,8 @@
 import React from 'react';
-import './App.css';
+import './styles/index.scss';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
-import Landing from './components/layout/Landing';
+import Landing from './components/landing/Landing';
 import Dashboard from './components/dashboard/Dashboard';
 import User from './components/user/User';
 import Register from './components/auth/Register';
