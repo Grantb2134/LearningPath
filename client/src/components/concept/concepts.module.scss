@@ -1,0 +1,35 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+	.concept {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		background-color: white;
+		border-radius: 5px;
+		border: 1px solid #C6C5C5;
+		padding: 20px 20px;
+		position: relative;
+		> i {
+			position: absolute;
+			top: 15px;
+			right: 15px;
+			font-size:20px;
+		}
+		.line {
+			position: absolute;
+			bottom: -21px;
+			left: 100px;
+			height: 20px;
+			border-left: 2px solid black;
+		}
+		
+	}
+	> :last-child {
+		> :last-child {
+			display: none;
+		}
+	}
+}

@@ -1,38 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { editPath, getPath } from '../../slices/paths';
+import { editContent, getContent } from '../../slices/contents';
 import styles from './create.module.scss';
 
 function Edit() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { path, loading } = useSelector((store) => store.paths);
-  const [editedPath, setEditedPath] = useState({
-    title: '',
-    description: '',
-  });
+  const { content } = useSelector((store) => store.contents);
+  const [editedContent, setEditedContent] = useState({});
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!loading && path) {
-      setEditedPath({
-        title: path.title,
-        description: path.description,
-      });
-    } else {
-      dispatch(getPath(id)).then((res) => res.meta.requestStatus === 'fulfilled' && setEditedPath(res.payload));
-    }
-  }, [path, loading]);
+    dispatch(getContent(id)).then((res) => res.meta.requestStatus === 'fulfilled' && setEditedContent(res.payload));
+  }, []);
 
-  const { title, description } = editedPath;
+  const { title, description, link } = editedContent;
 
-  const onChange = (e) => setEditedPath({ ...editedPath, [e.target.name]: e.target.value });
+  const onChange = (e) => setEditedContent({ ...editedContent, [e.target.name]: e.target.value });
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(editPath({
-      id, title, description,
+    dispatch(editContent({
+      content: {
+        id, title, description, link,
+      },
     }));
-    navigate(`/user/${path.userId}`);
+    navigate(`/concept/${content.conceptId}`);
   };
 
   return (
@@ -46,11 +38,17 @@ function Edit() {
         </div>
         <div>
           <label>
+            <span>Link:</span>
+            <input type="text" name="link" onChange={onChange} value={link} />
+          </label>
+        </div>
+        <div>
+          <label>
             <span>Description:</span>
             <textarea name="description" onChange={onChange} value={description} />
           </label>
         </div>
-        <input type="submit" value="Edit Path" />
+        <input type="submit" value="Edit Content" />
       </form>
     </section>
   );

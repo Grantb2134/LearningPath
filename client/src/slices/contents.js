@@ -4,7 +4,12 @@ import api from '../utils/api';
 export const createContent = createAsyncThunk(
   'contents/createContent',
   async (newContent) => {
-    const res = await api.post('/content/', newContent);
+    const config = {
+      headers: {
+        userToken: localStorage.getItem('userToken'),
+      },
+    };
+    const res = await api.post('/content/', newContent, config);
     return res.data;
   },
 );
@@ -12,7 +17,12 @@ export const createContent = createAsyncThunk(
 export const deleteContent = createAsyncThunk(
   'contents/deleteContent',
   async (id) => {
-    const res = await api.delete(`/content/${id}`);
+    const config = {
+      headers: {
+        userToken: localStorage.getItem('userToken'),
+      },
+    };
+    const res = await api.delete(`/content/${id}`, config);
     return res.data;
   },
 );
@@ -20,7 +30,12 @@ export const deleteContent = createAsyncThunk(
 export const editContent = createAsyncThunk(
   'contents/editContent',
   async (content) => {
-    const res = await api.put(`/content/${content.id}`, content);
+    const config = {
+      headers: {
+        userToken: localStorage.getItem('userToken'),
+      },
+    };
+    const res = await api.put(`/content/${content.content.id}`, content, config);
     return res.data;
   },
 );
@@ -37,6 +52,14 @@ export const getContent = createAsyncThunk(
   'contents/getContent',
   async (id) => {
     const res = await api.get(`/content/${id}`);
+    return res.data;
+  },
+);
+
+export const getContentByConceptId = createAsyncThunk(
+  'contents/getContentByConceptId',
+  async (conceptId) => {
+    const res = await api.get(`/content/concept/${conceptId}`);
     return res.data;
   },
 );
@@ -74,6 +97,16 @@ const contentsSlice = createSlice({
       state.content = action.payload;
     },
     [getContent.rejected]: (state) => {
+      state.loading = false;
+    },
+    [getContentByConceptId.pending]: (state) => {
+      state.loading = true;
+    },
+    [getContentByConceptId.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.content = action.payload;
+    },
+    [getContentByConceptId.rejected]: (state) => {
       state.loading = false;
     },
     [deleteContent.pending]: (state) => {

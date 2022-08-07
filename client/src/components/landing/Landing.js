@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Login from '../auth/Login';
-import Featured from '../path/Featured';
+// import Concepts from '../concept/Concepts';
 import Header from './Header';
 import styles from './landing.module.scss';
 
 function Landing() {
+  const {
+    userInfo,
+  } = useSelector(
+    (state) => state.auth,
+  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // redirect authenticated user to profile screen
+    if (userInfo) navigate('/dashboard');
+  }, [navigate, userInfo]);
   return (
     <>
       <Header />
@@ -15,7 +28,6 @@ function Landing() {
         </div>
         <div className={styles.featured}>
           <h2>Featured Posts</h2>
-          <Featured />
         </div>
       </div>
     </>

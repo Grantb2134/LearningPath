@@ -105,11 +105,11 @@ router.put('/:id', auth, async (req, res) => {
   const {
     description,
     title,
-    pathId,
-  } = req.body;
+  } = req.body.concept;
+  console.log(req.body);
   try {
     const editConcept = await Concept.update(
-      { title, description, pathId },
+      { title, description },
       { where: { id: req.params.id } },
     );
     if (editConcept) {
