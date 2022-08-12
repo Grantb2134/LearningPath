@@ -1,0 +1,24 @@
+.container {
+	a {
+		text-decoration: none;
+		color: #599671;
+		button {
+			border-color: #599671;
+			padding-top: 5px;
+			padding-bottom: 5px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap:7px;
+			width: 160px;
+			align-self: center;
+			> i {
+				background-color: #599671;
+				border-radius: 50%;
+				color: white;
+				font-size: 1.3rem;
+				padding: 2px;
+			}
+		}
+	}
+}
