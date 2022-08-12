@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { createPath } from '../../slices/paths';
+import { createPath } from '../../../slices/paths';
 import styles from './create.module.scss';
 
 function CreatePath() {
