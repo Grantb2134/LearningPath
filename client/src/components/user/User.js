@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './user.module.scss';
-import { getUsersPaths } from '../../../slices/paths';
+import { getUsersPaths } from '../../slices/paths';
 
 function User() {
   const { id } = useParams();
