@@ -1,9 +1,20 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getContentByConceptId } from '../../slices/contents';
+import Content from '../content/Content';
+import About from '../layout/sidebar/About';
+import Changelog from '../layout/sidebar/Changelog';
 import styles from './concept.module.scss';
 
 function Concept() {
+  const { id } = useParams();
+  const dispatch = useDispatch();
   const { content, loading } = useSelector((store) => store.contents);
+
+  useEffect(() => {
+    dispatch(getContentByConceptId(id));
+  }, []);
 
   if (loading || content === null) {
     return (
@@ -16,10 +27,11 @@ function Concept() {
       <h2>Concept page</h2>
       <div>
         <div className={styles.main}>
-          <div>content</div>
+          <Content content={content} />
         </div>
         <aside className={styles.sidebar}>
-          <div>sidebar</div>
+          <About buttonTitle="Add Content" buttonLink={`/content/create/concept/${id}`} />
+          <Changelog />
         </aside>
       </div>
     </div>

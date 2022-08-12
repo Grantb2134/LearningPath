@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { createConcept } from '../../slices/concepts';
 import styles from './create.module.scss';
 
 function CreateConcept() {
@@ -10,6 +12,7 @@ function CreateConcept() {
     title: '',
     description: '',
   });
+  const dispatch = useDispatch();
 
   const { title, description } = newConcept;
 
@@ -17,6 +20,7 @@ function CreateConcept() {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    dispatch(createConcept({ concept: { title, description, pathId: id } }));
     navigate(`/path/${id}`);
   };
 
