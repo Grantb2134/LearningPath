@@ -4,7 +4,12 @@ import api from '../utils/api';
 export const createPath = createAsyncThunk(
   'paths/createPath',
   async (newPath) => {
-    const res = await api.post('/paths/', newPath);
+    const config = {
+      headers: {
+        userToken: localStorage.getItem('userToken'),
+      },
+    };
+    const res = await api.post('/paths/', newPath, config);
     return res.data;
   },
 );
@@ -12,7 +17,12 @@ export const createPath = createAsyncThunk(
 export const deletePath = createAsyncThunk(
   'paths/deletePath',
   async (id) => {
-    const res = await api.delete(`/paths/${id}`);
+    const config = {
+      headers: {
+        userToken: localStorage.getItem('userToken'),
+      },
+    };
+    const res = await api.delete(`/paths/${id}`, config);
     return res.data;
   },
 );
@@ -20,7 +30,12 @@ export const deletePath = createAsyncThunk(
 export const editPath = createAsyncThunk(
   'paths/editPath',
   async (path) => {
-    const res = await api.put(`/paths/${path.id}`, path);
+    const config = {
+      headers: {
+        userToken: localStorage.getItem('userToken'),
+      },
+    };
+    const res = await api.put(`/paths/${path.id}`, path, config);
     return res.data;
   },
 );
@@ -29,6 +44,14 @@ export const getPaths = createAsyncThunk(
   'paths/getPaths',
   async () => {
     const res = await api.get('/paths/');
+    return res.data;
+  },
+);
+
+export const getUsersPaths = createAsyncThunk(
+  'paths/getUsersPaths',
+  async (userId) => {
+    const res = await api.get(`/paths/user/${userId}`);
     return res.data;
   },
 );
@@ -47,6 +70,7 @@ const pathsAdapter = createEntityAdapter({
 
 const initialState = {
   path: null,
+  paths: null,
   loading: true,
 };
 
@@ -74,6 +98,16 @@ const pathsSlice = createSlice({
       state.path = action.payload;
     },
     [getPath.rejected]: (state) => {
+      state.loading = false;
+    },
+    [getUsersPaths.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUsersPaths.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.paths = action.payload;
+    },
+    [getUsersPaths.rejected]: (state) => {
       state.loading = false;
     },
     [deletePath.pending]: (state) => {
