@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { deleteContent } from '../../../slices/contents';
+import { deleteContent } from '../../slices/contents';
 import styles from './content.module.scss';
 
 function Content({ content }) {

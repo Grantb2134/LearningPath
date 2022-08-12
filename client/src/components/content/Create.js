@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createContent } from '../../../slices/contents';
+import { createContent } from '../../slices/contents';
 import styles from './create.module.scss';
 
 function CreateContent() {

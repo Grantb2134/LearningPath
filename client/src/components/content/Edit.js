@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { editContent, getContent } from '../../../slices/contents';
+import { editContent, getContent } from '../../slices/contents';
 import styles from './edit.module.scss';
 
 function Edit() {
