@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { editConcept, getConcept } from '../../../slices/concepts';
+import { editConcept, getConcept } from '../../slices/concepts';
 import styles from './create.module.scss';
 
 function Edit() {
