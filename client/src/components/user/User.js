@@ -1,17 +1,11 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React,  from 'react';
+import { useSelector } from 'react-redux';
 import styles from './user.module.scss';
-import { getUsersPaths } from '../../slices/paths';
 
 function User() {
-  const { id } = useParams();
-  const dispatch = useDispatch();
   const { paths, loading } = useSelector((store) => store.paths);
 
-  useEffect(() => {
-    dispatch(getUsersPaths(id));
-  }, []);
+
 
   if (loading || paths === null) {
     return (
