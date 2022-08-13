@@ -84,11 +84,11 @@ router.get('/user/:userId', async (req, res) => {
 // @access
 router.post('/', auth, async (req, res) => {
   const {
-    title, description, userId,
-  } = req.body;
+    title, description,
+  } = req.body.path;
   try {
     const newPath = await Path.create(
-      { title, description, userId },
+      { title, description, userId: req.user.id },
     );
     if (newPath) {
       res.status(201).json({

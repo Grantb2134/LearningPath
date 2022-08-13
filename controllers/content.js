@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @route    GET api/contents/:id
+// @route    GET api/content/:id
 // @desc     Get content by ID
 // @access   Public
 router.get('/:contentId', async (req, res) => {
@@ -107,15 +107,16 @@ router.put('/:id', auth, async (req, res) => {
     description,
     title,
     link,
-    conceptId,
-  } = req.body;
+  } = req.body.content;
+
   try {
     const editContent = await Content.update(
       {
-        title, description, conceptId, link,
+        title, description, link,
       },
       { where: { id: req.params.id } },
     );
+    console.log(editContent);
     if (editContent) {
       res.status(201).json({
         message: 'Updated content',

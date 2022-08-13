@@ -15,7 +15,7 @@ app.use('/api/auth', auth);
 app.use('/api/users', users);
 app.use('/api/paths', paths);
 app.use('/api/concepts', concepts);
-app.use('./api/content', content);
+app.use('/api/content', content);
 
 app.get('/', (req, res) => res.send('TEST!'));
 

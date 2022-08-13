@@ -8,6 +8,7 @@ export const createUser = createAsyncThunk(
       const res = await api.post('/users/', newUser);
       return res.data;
     } catch (error) {
+      // return custom error message from API if any
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       }
@@ -24,6 +25,7 @@ export const login = createAsyncThunk(
       localStorage.setItem('userToken', JSON.stringify(res.data.token));
       return res.data;
     } catch (error) {
+      // return custom error message from API if any
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       }
@@ -34,15 +36,14 @@ export const login = createAsyncThunk(
 
 export const currentUser = createAsyncThunk(
   'auth/currentUser',
-  async (data, { getState, rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
     try {
-      const { auth } = getState();
-
       const config = {
         headers: {
-          userToken: auth.userToken,
+          userToken: localStorage.getItem('userToken'),
         },
       };
+
       const res = await api.get('/auth/', config);
       return res.data;
     } catch (error) {
@@ -98,6 +99,7 @@ const authSlice = createSlice({
     },
     [login.fulfilled]: (state, { payload }) => {
       state.loading = false;
+      // TODO: refactor userInfo - should be separate from userToken
       state.userInfo = payload;
       state.userToken = payload.token;
     },

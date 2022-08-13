@@ -77,6 +77,7 @@ router.get('/path/:pathId', async (req, res) => {
 
 router.post('/', auth, async (req, res) => {
   const { concept } = req.body;
+	console.log("\n\n\n\ntest\n\n\n\n")
   try {
     const newConcept = await Concept.create({
       title: concept.title,
@@ -105,11 +106,11 @@ router.put('/:id', auth, async (req, res) => {
   const {
     description,
     title,
-    pathId,
-  } = req.body;
+  } = req.body.concept;
+  console.log(req.body);
   try {
     const editConcept = await Concept.update(
-      { title, description, pathId },
+      { title, description },
       { where: { id: req.params.id } },
     );
     if (editConcept) {

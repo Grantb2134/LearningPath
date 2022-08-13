@@ -7,6 +7,7 @@ module.exports = function (req, res, next) {
       message: 'auth denied, token not found',
     });
   }
+
   try {
     jwt.verify(JSON.parse(token), process.env.jwtSecurity, (error, decoded) => {
       if (error) {

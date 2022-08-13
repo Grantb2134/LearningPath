@@ -1,45 +1,22 @@
 .container {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-
-	.content {
+	margin: 30px auto 0 auto;
+	padding: 60px;
+	width: 600px;
+	background-color: white;
+	border-radius: 5px;
+	form {
 		display: flex;
 		flex-direction: column;
-		gap: 5px;
-		background-color: white;
-		border-radius: 5px;
-		border: 1px solid #C6C5C5;
-		padding: 20px 20px;
-		position: relative;
-
-		> #icons {
-			display: flex;
-			gap: 10px;
-			position: absolute;
-			top: 15px;
-			right: 15px;
-			i {
-				font-size:20px;
-				color: black;
-				cursor: pointer;
+		gap: 20px;
+		> div {
+			label {
+				display: flex;
+				flex-direction: column;
+				gap: 5px;
 			}
 		}
-
-		.line {
-			position: absolute;
-			bottom: -21px;
-			left: 100px;
-			height: 20px;
-			border-left: 2px solid black;
-		}
-		
 	}
-
-
-	> :last-child {
-		> :last-child {
-			display: none;
-		}
+	input[type="submit"] {
+		width: 120px;
 	}
 }
