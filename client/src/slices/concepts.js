@@ -4,7 +4,12 @@ import api from '../utils/api';
 export const createConcept = createAsyncThunk(
   'concepts/createConcept',
   async (newConcept) => {
-    const res = await api.post('/concepts/', newConcept);
+    const config = {
+      headers: {
+        userToken: localStorage.getItem('userToken'),
+      },
+    };
+    const res = await api.post('/concepts/', newConcept, config);
     return res.data;
   },
 );
@@ -12,7 +17,12 @@ export const createConcept = createAsyncThunk(
 export const deleteConcept = createAsyncThunk(
   'concepts/deleteConcept',
   async (id) => {
-    const res = await api.delete(`/concepts/${id}`);
+    const config = {
+      headers: {
+        userToken: localStorage.getItem('userToken'),
+      },
+    };
+    const res = await api.delete(`/concepts/${id}`, config);
     return res.data;
   },
 );
@@ -20,7 +30,12 @@ export const deleteConcept = createAsyncThunk(
 export const editConcept = createAsyncThunk(
   'concepts/editConcept',
   async (concept) => {
-    const res = await api.put(`/concepts/${concept.id}`, concept);
+    const config = {
+      headers: {
+        userToken: localStorage.getItem('userToken'),
+      },
+    };
+    const res = await api.put(`/concepts/${concept.concept.id}`, concept, config);
     return res.data;
   },
 );
@@ -29,6 +44,14 @@ export const getConcepts = createAsyncThunk(
   'concepts/getConcepts',
   async () => {
     const res = await api.get('/concepts/');
+    return res.data;
+  },
+);
+
+export const getConceptsByPathId = createAsyncThunk(
+  'concepts/getConceptsByPathId',
+  async (pathId) => {
+    const res = await api.get(`/concepts/path/${pathId}`);
     return res.data;
   },
 );
@@ -47,6 +70,7 @@ const conceptsAdapter = createEntityAdapter({
 
 const initialState = {
   concept: null,
+  concepts: null,
   loading: true,
 };
 
@@ -74,6 +98,16 @@ const conceptsSlice = createSlice({
       state.concept = action.payload;
     },
     [getConcept.rejected]: (state) => {
+      state.loading = false;
+    },
+    [getConceptsByPathId.pending]: (state) => {
+      state.loading = true;
+    },
+    [getConceptsByPathId.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.concepts = action.payload;
+    },
+    [getConceptsByPathId.rejected]: (state) => {
       state.loading = false;
     },
     [deleteConcept.pending]: (state) => {
