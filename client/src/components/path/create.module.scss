@@ -1,0 +1,22 @@
+.container {
+	margin: 30px auto 0 auto;
+	padding: 60px;
+	width: 600px;
+	background-color: white;
+	border-radius: 5px;
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		> div {
+			label {
+				display: flex;
+				flex-direction: column;
+				gap: 5px;
+			}
+		}
+	}
+	input[type="submit"] {
+		width: 120px;
+	}
+}
