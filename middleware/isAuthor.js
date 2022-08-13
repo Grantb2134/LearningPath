@@ -1,14 +1,13 @@
 const db = require('../models');
 
 const Path = db.paths;
-
-module.exports = function (req, res) {
+module.exports = async function (req, res) {
   try {
     const userId = req.user.id;
     if (userId === null || userId === undefined) {
       return 'Author not found.';
     }
-    const isAuthor = Path.findUnique({
+    const isAuthor = await Path.findOne({
       where: {
         userId,
       },

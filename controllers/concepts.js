@@ -76,7 +76,7 @@ router.get('/path/:pathId', async (req, res) => {
   }
 });
 
-router.post('/', auth, isAuthor, async (req, res) => {
+router.post('/', auth, async (req, res) => {
   const { concept } = req.body;
   try {
     const newConcept = await Concept.create({
