@@ -1,0 +1,22 @@
+.container {
+	> div {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		.progressBar {
+			height: 5px;
+			width: 100%;
+			background-color: grey;
+			position: relative;
+			z-index: 1;
+			.progress {
+				position: absolute;
+				left: 0;
+				height: 5px;
+				width: 35%;
+				background-color: #599671;
+				z-index: 2;
+			}
+		}
+	}
+}

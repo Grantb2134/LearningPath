@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getContentByConceptId } from '../../slices/contents';
 import Content from '../content/Content';
-import About from '../sidebar/About';
-import Changelog from '../sidebar/Changelog';
+import About from '../layout/sidebar/About';
+import Changelog from '../layout/sidebar/Changelog';
 import styles from './concept.module.scss';
 
 function Concept() {

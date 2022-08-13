@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './path.module.scss';
 import Concepts from '../concept/Concepts';
-import About from '../sidebar/About';
-import Changelog from '../sidebar/Changelog';
+import About from '../layout/sidebar/About';
+import Changelog from '../layout/sidebar/Changelog';
 import { getPath } from '../../slices/paths';
 import { getConceptsByPathId } from '../../slices/concepts';
 
