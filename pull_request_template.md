@@ -1,6 +1,8 @@
 ## Description ##
 
-DESCRIBE YOUR PULL REQUEST'S CHANGES.  **REPLACE THIS TEXT**.
+DESCRIBE YOUR PULL REQUEST'S CHANGES.
+
+**REPLACE THIS TEXT**.
 
 ## Screen shots or GIFs of UI changes ##
 
