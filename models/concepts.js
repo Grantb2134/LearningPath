@@ -21,6 +21,14 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       },
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+    },
   });
   return Concept;
 };

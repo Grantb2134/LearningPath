@@ -22,6 +22,7 @@ export const login = createAsyncThunk(
   async (newAuth, { rejectWithValue }) => {
     try {
       const res = await api.post('/auth/', newAuth);
+      console.log(`<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<${res.data.token}>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>`);
       localStorage.setItem('userToken', JSON.stringify(res.data.token));
       return res.data;
     } catch (error) {
