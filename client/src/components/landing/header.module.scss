@@ -1,0 +1,33 @@
+.container {
+	background-image: url('../../../public/img/header.jpg');
+	background-size: cover;
+	height: 350px;
+	display: flex;
+	justify-content: space-around;
+	div:first-child {
+		position: relative;
+		height: 100%;
+		img {
+			height: 250px;
+			position: absolute;
+			bottom: 0;
+		}
+	}
+	.text {
+		display: flex;
+		flex-direction: column;
+		margin-top: 80px;
+		color: white;
+		p {
+			margin-top: 10px;
+			margin-bottom: 30px;
+		}
+		button {
+			width: 150px;
+			padding: 15px;
+			color: white;
+			border: 1px solid white;
+			cursor: pointer;
+		}
+	}
+}

@@ -1,0 +1,16 @@
+.body {
+	display: flex;
+	justify-content: space-around;
+	margin: 30px auto 0 auto;
+	width: 1000px;
+	div {
+		h2 {
+			margin-left: 10px;
+			margin-bottom: 20px;
+		}
+	}
+
+	.featured > div {
+		width: 400px;
+	}
+}
