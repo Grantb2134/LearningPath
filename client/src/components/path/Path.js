@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './path.module.scss';
+import Concepts from '../concept/Concepts';
+import About from '../layout/sidebar/About';
+import Changelog from '../layout/sidebar/Changelog';
 import { getPath } from '../../slices/paths';
 import { getConceptsByPathId } from '../../slices/concepts';
 
@@ -25,8 +28,12 @@ function Path() {
     <div className={styles.container}>
       <h2>{path.title}</h2>
       <div>
+        <div className={styles.main}>
+          <Concepts concepts={concepts} />
+        </div>
         <aside className={styles.sidebar}>
-          <div>sidebar</div>
+          <About buttonTitle="Add Concept" buttonLink={`/concept/create/path/${id}`} />
+          <Changelog />
         </aside>
       </div>
     </div>
