@@ -5,7 +5,7 @@ import { deleteConcept } from '../../slices/concepts';
 import styles from './concepts.module.scss';
 
 function Concepts({ concepts }) {
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onDelete = async (id, pathId) => {
