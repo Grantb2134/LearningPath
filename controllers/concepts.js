@@ -77,7 +77,7 @@ router.get('/path/:pathId', async (req, res) => {
 
 router.post('/', auth, async (req, res) => {
   const { concept } = req.body;
-	console.log("\n\n\n\ntest\n\n\n\n")
+  console.log('\n\n\n\ntest\n\n\n\n');
   try {
     const newConcept = await Concept.create({
       title: concept.title,
