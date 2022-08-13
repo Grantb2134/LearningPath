@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Paths from '../path/Paths';
 import styles from './user.module.scss';
-import { getUsersPaths } from '../../../slices/paths';
+import { getUsersPaths } from '../../slices/paths';
 
 function User() {
   const { id } = useParams();
@@ -43,6 +44,7 @@ function User() {
       </aside>
       <div className={styles.main}>
         <h2>Recent Paths</h2>
+        <Paths paths={paths} />
       </div>
     </div>
   );
