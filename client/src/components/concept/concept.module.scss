@@ -1,0 +1,26 @@
+.container {
+	margin: 30px auto 0 auto;
+	width: 1000px;
+	h2 {
+		margin-bottom: 15px;
+	}
+	> div {
+		display: grid;
+		grid-template-columns: 1fr 250px;
+		gap: 20px;
+	}
+}
+
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	> div {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		background-color: white;
+		border-radius: 5px;
+		padding: 20px 30px;
+	}
+}
