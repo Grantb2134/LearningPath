@@ -20,7 +20,7 @@ function Paths({ paths }) {
         <div className={styles.path}>
           <Link to={`/path/${path.id}`}><h4>{path.title}</h4></Link>
           <p>{path.description}</p>
-          {userInfo.id === path.userId &&(
+          {userInfo && userInfo.id === path.userId &&(
           <div id={styles.icons}>
             <i onClick={() => onDelete(path.id)} className="las la-trash-alt" />
             <Link to={`/path/edit/${path.id}`}><i className="las la-pen" /></Link>

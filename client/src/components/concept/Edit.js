@@ -7,7 +7,7 @@ import styles from './create.module.scss';
 function Edit() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { concept, loading } = useSelector((store) => store.concepts);
+  const { concept } = useSelector((store) => store.concepts);
   const { userInfo } = useSelector((store) => store.auth);
   const [editedConcept, setEditedConcept] = useState({
     title: '',
@@ -18,12 +18,12 @@ function Edit() {
     dispatch(getConcept(id)).then((res) => {
       if (res.meta.requestStatus === 'fulfilled') {
         setEditedConcept(res.payload);
-        if (userInfo.id !== res.payload.userId) {
-          navigate(`/concept/${id}`);
+        if (!userInfo||userInfo.id !== res.payload.userId) {
+          navigate(`/path/${res.payload.pathId}`);
         }
       }
     });
-  }, [concept, loading, userInfo]);
+  }, []);
 
   const { title, description } = editedConcept;
 

@@ -13,14 +13,14 @@ function Edit() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getContent(id)).then((res) => {
-			if(res.meta.requestStatus === 'fulfilled'){
-				setEditedContent(res.payload)
-				if(userInfo.id !== res.payload.userId) {
-					navigate(`/content/${id}`);
-				}
-			}
-		})
-  }, [userInfo]);
+      if (res.meta.requestStatus === 'fulfilled') {
+        setEditedContent(res.payload);
+        if (!userInfo||userInfo.id !== res.payload.userId) {
+          navigate(`/concept/${res.payload.conceptId}`);
+        }
+      }
+    });
+  }, []);
 
   const { title, description, link } = editedContent;
 

@@ -19,7 +19,7 @@ function Concepts({ concepts }) {
         <div className={styles.concept}>
           <Link to={`/concept/${concept.id}`}><h4>{concept.title}</h4></Link>
           <p>{concept.description}</p>
-          {userInfo.id === concept.userId &&(
+          {userInfo&&userInfo.id === concept.userId &&(
           <div id={styles.icons}>
             <i onClick={() => onDelete(concept.id)} className="las la-trash-alt" />
             <Link to={`/concept/edit/${concept.id}`}><i className="las la-pen" /></Link>

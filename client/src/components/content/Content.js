@@ -15,7 +15,7 @@ function Content({ content }) {
         <div key={singleContent.id} className={styles.content}>
           <h4><a href={singleContent.link}>{singleContent.title}</a></h4>
           <p>{singleContent.description}</p>
-          {userInfo.id === singleContent.userId &&(
+          {userInfo&&userInfo.id === singleContent.userId &&(
           <div id={styles.icons}>
             <i onClick={() => onDelete(singleContent.id)} className="las la-trash-alt" />
             <Link to={`/content/edit/${singleContent.id}`}><i className="las la-pen" /></Link>

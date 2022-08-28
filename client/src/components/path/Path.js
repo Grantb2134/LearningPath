@@ -17,6 +17,7 @@ function Path() {
     dispatch(getConceptsByPathId(id));
     dispatch(getPath(id));
   }, []);
+
   if (loading || path === null) {
     return (
       <div>Loading</div>
