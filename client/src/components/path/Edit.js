@@ -8,6 +8,13 @@ function Edit() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { path, loading } = useSelector((store) => store.paths);
+  const { userInfo } = useSelector((store) => store.auth);
+  useEffect(() => {
+    if (userInfo && userInfo.id !== path.userId) {
+      navigate(`/path/${id}`);
+    }
+  }, [userInfo]);
+
   const [editedPath, setEditedPath] = useState({
     title: '',
     description: '',

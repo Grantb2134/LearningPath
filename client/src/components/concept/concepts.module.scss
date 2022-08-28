@@ -12,11 +12,17 @@
 		border: 1px solid #C6C5C5;
 		padding: 20px 20px;
 		position: relative;
-		> i {
+		> #icons {
+			display: flex;
+			gap: 10px;
 			position: absolute;
 			top: 15px;
 			right: 15px;
-			font-size:20px;
+			i {
+				font-size:20px;
+				color: black;
+				cursor: pointer;
+			}
 		}
 		.line {
 			position: absolute;

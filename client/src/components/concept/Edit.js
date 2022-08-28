@@ -8,12 +8,16 @@ function Edit() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { concept, loading } = useSelector((store) => store.concepts);
+  const { userInfo } = useSelector((store) => store.auth);
   const [editedConcept, setEditedConcept] = useState({
     title: '',
     description: '',
   });
   const dispatch = useDispatch();
   useEffect(() => {
+    if (userInfo && userInfo.id !== concept.userId) {
+      navigate(`/concept/${id}`);
+    }
     if (!loading && concept) {
       setEditedConcept({
         title: concept.title,
@@ -22,7 +26,7 @@ function Edit() {
     } else {
       dispatch(getConcept(id));
     }
-  }, [concept, loading]);
+  }, [concept, loading, userInfo]);
 
   const { title, description } = editedConcept;
 
