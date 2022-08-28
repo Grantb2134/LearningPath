@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './path.module.scss';
 import Concepts from '../concept/Concepts';
 import About from '../layout/sidebar/About';
-import Changelog from '../layout/sidebar/Changelog';
 import { getPath } from '../../slices/paths';
 import { getConceptsByPathId } from '../../slices/concepts';
 
@@ -33,7 +32,6 @@ function Path() {
         </div>
         <aside className={styles.sidebar}>
           <About buttonTitle="Add Concept" buttonLink={`/concept/create/path/${id}`} />
-          <Changelog />
         </aside>
       </div>
     </div>

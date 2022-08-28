@@ -15,17 +15,14 @@ function Edit() {
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    if (userInfo && userInfo.id !== concept.userId) {
-      navigate(`/concept/${id}`);
-    }
-    if (!loading && concept) {
-      setEditedConcept({
-        title: concept.title,
-        description: concept.description,
-      });
-    } else {
-      dispatch(getConcept(id));
-    }
+    dispatch(getConcept(id)).then((res) => {
+      if (res.meta.requestStatus === 'fulfilled') {
+        setEditedConcept(res.payload);
+        if (userInfo.id !== res.payload.userId) {
+          navigate(`/concept/${id}`);
+        }
+      }
+    });
   }, [concept, loading, userInfo]);
 
   const { title, description } = editedConcept;

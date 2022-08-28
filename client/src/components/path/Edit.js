@@ -10,7 +10,7 @@ function Edit() {
   const { path, loading } = useSelector((store) => store.paths);
   const { userInfo } = useSelector((store) => store.auth);
   useEffect(() => {
-    if (userInfo && userInfo.id !== path.userId) {
+    if (userInfo.id !== path.userId) {
       navigate(`/path/${id}`);
     }
   }, [userInfo]);
@@ -21,14 +21,14 @@ function Edit() {
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!loading && path) {
-      setEditedPath({
-        title: path.title,
-        description: path.description,
-      });
-    } else {
-      dispatch(getPath(id)).then((res) => res.meta.requestStatus === 'fulfilled' && setEditedPath(res.payload));
-    }
+    dispatch(getPath(id)).then((res) => {
+      if (res.meta.requestStatus === 'fulfilled') {
+        setEditedPath(res.payload);
+        if (userInfo.id !== res.payload.userId) {
+          navigate(`/path/${id}`);
+        }
+      }
+    });
   }, [path, loading]);
 
   const { title, description } = editedPath;

@@ -8,14 +8,18 @@ function Edit() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { content } = useSelector((store) => store.contents);
-	const { userInfo } = useSelector((store) => store.auth);
+  const { userInfo } = useSelector((store) => store.auth);
   const [editedContent, setEditedContent] = useState({});
   const dispatch = useDispatch();
   useEffect(() => {
-		if (userInfo && userInfo.id !== content.userId) {
-      navigate(`/content/${id}`);
-    }
-    dispatch(getContent(id)).then((res) => res.meta.requestStatus === 'fulfilled' && setEditedContent(res.payload));
+    dispatch(getContent(id)).then((res) => {
+			if(res.meta.requestStatus === 'fulfilled'){
+				setEditedContent(res.payload)
+				if(userInfo.id !== res.payload.userId) {
+					navigate(`/content/${id}`);
+				}
+			}
+		})
   }, [userInfo]);
 
   const { title, description, link } = editedContent;
