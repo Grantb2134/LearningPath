@@ -1,6 +1,5 @@
 import React from 'react';
 import Concepts from '../concept/Concepts';
-import AddPath from '../layout/sidebar/CreatePath';
 import Progress from '../layout/sidebar/Progress';
 import styles from './dashboard.module.scss';
 
@@ -14,7 +13,6 @@ function Dashboard() {
         </div>
         <div className={styles.sidebar}>
           <Progress />
-          <AddPath />
         </div>
       </div>
     </div>
