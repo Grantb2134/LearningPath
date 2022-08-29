@@ -133,6 +133,39 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// @route    PUT api/user/currentPathId
+// @desc     Set current user path
+// @access
+router.put('/currentPath', auth, async (req, res) => {
+  try {
+    const currentUserPath = await User.update(
+      {
+        currentPath: req.body.pathId,
+      },
+      {
+        where: {
+          id: req.user.id,
+        },
+      },
+    );
+
+    if (currentUserPath) {
+      res.status(201).json({
+        message: 'User path set',
+      });
+    } else {
+      res.status(404).json({
+        message: 'Current path not found',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'Internal Server Error',
+    });
+  }
+});
+
 // @route    PUT api/users/password/:id
 // @desc     Edit user password
 // @access
