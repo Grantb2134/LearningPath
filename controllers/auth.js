@@ -39,7 +39,7 @@ router.post(
         where: {
           email,
         },
-        attributes: ['id', 'password'],
+        attributes: ['id', 'password', 'currentPath'],
       });
 
       if (!user) {
@@ -61,14 +61,13 @@ router.post(
           id: user.id,
         },
       };
-
       jwt.sign(
         payload,
         process.env.jwtSecurity,
         { expiresIn: '2 days' },
         (err, token) => {
           if (err) throw err;
-          res.json({ token });
+          res.json({ token, user: {id: user.id, currentPath: user.currentPath } });
         },
       );
     } catch (err) {
