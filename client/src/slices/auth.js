@@ -99,8 +99,7 @@ const authSlice = createSlice({
     },
     [login.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      // TODO: refactor userInfo - should be separate from userToken
-      state.userInfo = payload;
+      state.userInfo = payload.user;
       state.userToken = payload.token;
     },
     [login.rejected]: (state, { payload }) => {
