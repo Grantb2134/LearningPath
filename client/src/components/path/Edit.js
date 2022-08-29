@@ -7,22 +7,23 @@ import styles from './create.module.scss';
 function Edit() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { path, loading } = useSelector((store) => store.paths);
+  const { path } = useSelector((store) => store.paths);
+  const { userInfo } = useSelector((store) => store.auth);
   const [editedPath, setEditedPath] = useState({
     title: '',
     description: '',
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!loading && path) {
-      setEditedPath({
-        title: path.title,
-        description: path.description,
-      });
-    } else {
-      dispatch(getPath(id)).then((res) => res.meta.requestStatus === 'fulfilled' && setEditedPath(res.payload));
-    }
-  }, [path, loading]);
+    dispatch(getPath(id)).then((res) => {
+      if (res.meta.requestStatus === 'fulfilled') {
+        setEditedPath(res.payload);
+        if (!userInfo||userInfo.id !== res.payload.userId) {
+          navigate(`/user/${res.payload.userId}`);
+        }
+      }
+    });
+  }, []);
 
   const { title, description } = editedPath;
 

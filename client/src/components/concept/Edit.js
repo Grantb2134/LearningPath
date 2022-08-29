@@ -7,22 +7,23 @@ import styles from './create.module.scss';
 function Edit() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { concept, loading } = useSelector((store) => store.concepts);
+  const { concept } = useSelector((store) => store.concepts);
+  const { userInfo } = useSelector((store) => store.auth);
   const [editedConcept, setEditedConcept] = useState({
     title: '',
     description: '',
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!loading && concept) {
-      setEditedConcept({
-        title: concept.title,
-        description: concept.description,
-      });
-    } else {
-      dispatch(getConcept(id));
-    }
-  }, [concept, loading]);
+    dispatch(getConcept(id)).then((res) => {
+      if (res.meta.requestStatus === 'fulfilled') {
+        setEditedConcept(res.payload);
+        if (!userInfo||userInfo.id !== res.payload.userId) {
+          navigate(`/path/${res.payload.pathId}`);
+        }
+      }
+    });
+  }, []);
 
   const { title, description } = editedConcept;
 

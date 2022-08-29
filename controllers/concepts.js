@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 const auth = require('../middleware/auth');
+const isAuthor = require('../middleware/isAuthor');
 
 const Concept = db.concepts;
 
@@ -77,12 +78,12 @@ router.get('/path/:pathId', async (req, res) => {
 
 router.post('/', auth, async (req, res) => {
   const { concept } = req.body;
-  console.log('\n\n\n\ntest\n\n\n\n');
   try {
     const newConcept = await Concept.create({
       title: concept.title,
       description: concept.description,
       pathId: concept.pathId,
+      userId: req.user.id,
     });
     if (newConcept) {
       res.status(201).json({
@@ -102,7 +103,7 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', auth, isAuthor, async (req, res) => {
   const {
     description,
     title,

@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { getContentByConceptId } from '../../slices/contents';
 import Content from '../content/Content';
 import About from '../layout/sidebar/About';
-import Changelog from '../layout/sidebar/Changelog';
 import styles from './concept.module.scss';
 
 function Concept() {
@@ -31,7 +30,6 @@ function Concept() {
         </div>
         <aside className={styles.sidebar}>
           <About buttonTitle="Add Content" buttonLink={`/content/create/concept/${id}`} />
-          <Changelog />
         </aside>
       </div>
     </div>

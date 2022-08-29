@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 const auth = require('../middleware/auth');
+const isAuthor = require('../middleware/isAuthor');
 
 const Content = db.contents;
 
@@ -83,6 +84,7 @@ router.post('/', auth, async (req, res) => {
       description: content.description,
       link: content.link,
       conceptId: content.conceptId,
+      userId: req.user.id,
     });
     if (newContent) {
       res.status(201).json({
@@ -102,7 +104,7 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', auth, isAuthor, async (req, res) => {
   const {
     description,
     title,
@@ -133,7 +135,7 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', auth, isAuthor, async (req, res) => {
   try {
     const content = await Content.destroy({
       where: { id: req.params.id },
