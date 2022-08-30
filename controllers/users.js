@@ -60,7 +60,9 @@ router.get('/:id', async (req, res) => {
 // @desc     Create a user
 
 router.post('/', async (req, res) => {
-  const { username, email, password } = req.body.user;
+  const {
+    username, email, password, twitter, gitHub, website,
+  } = req.body.user;
 
   try {
     const user = await User.findOne({
@@ -81,6 +83,9 @@ router.post('/', async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      twitter,
+      gitHub,
+      website,
     });
     if (!newUser) {
       return res.status(400).json({
@@ -123,6 +128,38 @@ router.delete('/:id', async (req, res) => {
     } else {
       res.status(404).json({
         message: 'Unable to delete user',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'Internal Server Error',
+    });
+  }
+});
+
+// @route    PUT api/userId
+// @desc     Update user credentials
+// @access
+router.put('/:id', auth, async (req, res) => {
+  const {
+    email, twitter, gitHub, website,
+  } = req.body.user;
+  try {
+    const editUser = await User.update(
+      {
+        email, twitter, gitHub, website,
+      },
+      { where: { id: req.params.id } },
+    );
+
+    if (editUser) {
+      res.status(201).json({
+        message: 'Updated user',
+      });
+    } else {
+      res.status(404).json({
+        message: 'Unable to update user credentials',
       });
     }
   } catch (error) {

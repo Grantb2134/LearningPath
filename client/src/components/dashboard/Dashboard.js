@@ -15,7 +15,7 @@ function Dashboard() {
       dispatch(getConceptsByPathId(userInfo.currentPath));
     }
   }, [userInfo]);
-	
+
   if (loading || concepts === null) {
     return (
       <div>Loading</div>
