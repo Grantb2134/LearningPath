@@ -7,6 +7,9 @@ const isAuthor = require('../middleware/isAuthor');
 
 const Concept = db.concepts;
 
+// @route    GET api/concepts
+// @desc     Get concept all concepts
+// @access   Public
 router.get('/', async (req, res) => {
   try {
     const allConcepts = await Concept.findAll();
@@ -52,7 +55,7 @@ router.get('/:conceptId', async (req, res) => {
 
 // @route    GET api/concepts/path/:pathId
 // @desc     Get concept that belongs to a single path
-// @access
+// @access   Public
 router.get('/path/:pathId', async (req, res) => {
   try {
     const concepts = await Concept.findAll({
@@ -76,6 +79,9 @@ router.get('/path/:pathId', async (req, res) => {
   }
 });
 
+// @route    POST api/concepts
+// @desc     Create a concept
+// @access   Private
 router.post('/', auth, async (req, res) => {
   const { concept } = req.body;
   try {
@@ -103,6 +109,9 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
+// @route    PUT api/concepts/:id
+// @desc     Edit a concept
+// @access   Private
 router.put('/:id', auth, isAuthor, async (req, res) => {
   const {
     description,
@@ -130,6 +139,9 @@ router.put('/:id', auth, isAuthor, async (req, res) => {
   }
 });
 
+// @route    DELETE api/concepts/:id
+// @desc     Delete a concept
+// @access   Private
 router.delete('/:id', auth, async (req, res) => {
   try {
     const concept = await Concept.destroy({
