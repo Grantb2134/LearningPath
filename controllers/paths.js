@@ -8,7 +8,7 @@ const Path = db.paths;
 
 // @route    GET api/paths
 // @desc     Get all paths
-// @access
+// @access   Public
 router.get('/', async (req, res) => {
   try {
     const allPaths = await Path.findAll();
@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
 
 // @route    GET api/paths/:id
 // @desc     Get path by ID
-// @access
+// @access   Public
 router.get('/:pathId', async (req, res) => {
   try {
     const getPath = await Path.findOne({
@@ -55,7 +55,7 @@ router.get('/:pathId', async (req, res) => {
 
 // @route    GET api/paths/user/:id
 // @desc     Get all paths created by a user
-// @access
+// @access   Public
 router.get('/user/:userId', async (req, res) => {
   try {
     const userPaths = await Path.findAll({
@@ -81,7 +81,7 @@ router.get('/user/:userId', async (req, res) => {
 
 // @route    POST api/paths
 // @desc     Create a path
-// @access
+// @access   Private
 router.post('/', auth, async (req, res) => {
   const {
     title, description,
@@ -110,7 +110,7 @@ router.post('/', auth, async (req, res) => {
 
 // @route    PUT api/paths/:id
 // @desc     Edit a path
-// @access
+// @access   Private
 router.put('/:id', auth, async (req, res) => {
   const { title, description } = req.body;
   try {
@@ -138,7 +138,7 @@ router.put('/:id', auth, async (req, res) => {
 
 // @route    DELETE api/paths/:id
 // @desc     Delete a path
-// @access
+// @access   Private
 router.delete('/:id', auth, async (req, res) => {
   try {
     const path = await Path.destroy({

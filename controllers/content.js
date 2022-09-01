@@ -7,6 +7,9 @@ const isAuthor = require('../middleware/isAuthor');
 
 const Content = db.contents;
 
+// @route    GET api/content
+// @desc     Get all content
+// @access   Public
 router.get('/', async (req, res) => {
   try {
     const allContents = await Content.findAll();
@@ -52,7 +55,7 @@ router.get('/:contentId', async (req, res) => {
 
 // @route    GET api/content/concept/:conceptId
 // @desc     Get content that belongs to a single concept
-// @access
+// @access   Public
 router.get('/concept/:conceptId', async (req, res) => {
   try {
     const content = await Content.findAll({
@@ -76,6 +79,9 @@ router.get('/concept/:conceptId', async (req, res) => {
   }
 });
 
+// @route    POST api/content
+// @desc     Create content
+// @access   Private
 router.post('/', auth, async (req, res) => {
   const { content } = req.body;
   try {
@@ -104,6 +110,9 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
+// @route    PUT api/content/:id
+// @desc     Edit content
+// @access   Private
 router.put('/:id', auth, isAuthor, async (req, res) => {
   const {
     description,
@@ -135,6 +144,9 @@ router.put('/:id', auth, isAuthor, async (req, res) => {
   }
 });
 
+// @route    DELETE api/content/:id
+// @desc     Delete content
+// @access   Private
 router.delete('/:id', auth, isAuthor, async (req, res) => {
   try {
     const content = await Content.destroy({
