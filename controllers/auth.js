@@ -27,31 +27,56 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route    Post api/auth
+// @route    POST api/auth
 // @desc     Authenticate user & get token
 // @access   Public
-router.post('/', async (req, res) => {
-  const { email } = req.body;
-  try {
-    const user = await User.findOne({
-      where: {
-        email,
-      },
-    });
-    if (user) {
-      res.status(201).json(user);
-    } else {
-      res.status(404).json({
-        message: 'No Users found in DB',
+router.post(
+  '/',
+  async (req, res) => {
+    const { email, password } = req.body;
+    console.log(req.body);
+    try {
+      const user = await User.findOne({
+        where: {
+          email,
+        },
+        attributes: ['id', 'password', 'currentPath'],
       });
+
+      if (!user) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Invalid Credentials' }] });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Invalid Credentials' }] });
+      }
+
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+      jwt.sign(
+        payload,
+        process.env.jwtSecurity,
+        { expiresIn: '2 days' },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token, user: { id: user.id, currentPath: user.currentPath } });
+        },
+      );
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: 'Internal Server Error',
-    });
-  }
-});
+  },
+);
 
 // @route    POST api/auth
 // @desc     Authenticate user & get token

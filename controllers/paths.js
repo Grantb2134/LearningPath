@@ -1,6 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
+const { check, validationResult } = require('express-validator');
 const db = require('../models');
 const auth = require('../middleware/auth');
 
@@ -82,59 +83,105 @@ router.get('/user/:userId', async (req, res) => {
 // @route    POST api/paths
 // @desc     Create a path
 // @access   Private
-router.post('/', auth, async (req, res) => {
-  const {
-    title, description,
-  } = req.body.path;
-  try {
-    const newPath = await Path.create(
-      { title, description, userId: req.user.id },
-    );
-    if (newPath) {
-      res.status(201).json({
-        message: 'New Path Added',
-        newPath,
-      });
+router.post(
+  '/',
+  [
+    check('title')
+      .notEmpty()
+      .withMessage('The title can not be empty'),
+
+    check('description')
+      .notEmpty()
+      .withMessage('The description can not be empty'),
+
+  ],
+  (req, res, next) => {
+    const error = validationResult(req).formatWith(({ msg }) => msg);
+    if (!error.isEmpty()) {
+      res.status(422).json({ error: error.array() });
     } else {
-      res.status(400).json({
-        message: 'Error Creating New Path!',
+      next();
+    }
+  },
+  auth,
+
+  async (req, res) => {
+    const {
+      title, description,
+    } = req.body.path;
+    try {
+      const newPath = await Path.create(
+        { title, description, userId: req.user.id },
+      );
+      if (newPath) {
+        res.status(201).json({
+          message: 'New Path Added',
+          newPath,
+        });
+      } else {
+        res.status(400).json({
+          message: 'Error Creating New Path!',
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: 'Internal Server Error',
       });
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: 'Internal Server Error',
-    });
-  }
-});
+  },
+);
 
 // @route    PUT api/paths/:id
 // @desc     Edit a path
 // @access   Private
-router.put('/:id', auth, async (req, res) => {
-  const { title, description } = req.body;
-  try {
-    const editPath = await Path.update(
-      { title, description },
-      { where: { id: req.params.id } },
-    );
+router.put(
+  '/:id',
+  [
+    check('title')
+      .notEmpty()
+      .withMessage('The title can not be empty'),
 
-    if (editPath) {
-      res.status(201).json({
-        message: 'Updated post',
-      });
+    check('description')
+      .notEmpty()
+      .withMessage('The description can not be empty'),
+
+  ],
+  (req, res, next) => {
+    const error = validationResult(req).formatWith(({ msg }) => msg);
+    if (!error.isEmpty()) {
+      res.status(422).json({ error: error.array() });
     } else {
-      res.status(404).json({
-        message: 'Unable to title and description',
+      next();
+    }
+  },
+  auth,
+
+  async (req, res) => {
+    const { title, description } = req.body;
+    try {
+      const editPath = await Path.update(
+        { title, description },
+        { where: { id: req.params.id } },
+      );
+
+      if (editPath) {
+        res.status(201).json({
+          message: 'Updated post',
+        });
+      } else {
+        res.status(404).json({
+          message: 'Unable to title and description',
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: 'Internal Server Error',
       });
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: 'Internal Server Error',
-    });
-  }
-});
+  },
+);
 
 // @route    DELETE api/paths/:id
 // @desc     Delete a path
