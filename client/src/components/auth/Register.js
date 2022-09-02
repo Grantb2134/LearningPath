@@ -30,7 +30,7 @@ function Register() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(createUser({ user: newUser }));
+    dispatch(createUser(newUser));
   };
   return (
     <div className={styles.container}>
