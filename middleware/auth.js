@@ -9,7 +9,7 @@ module.exports = function (req, res, next) {
   }
 
   try {
-    jwt.verify(token, process.env.jwtSecurity, (error, decoded) => {
+    jwt.verify(JSON.parse(token), process.env.jwtSecurity, (error, decoded) => {
       if (error) {
         return res.status(401).json({
           message: 'Invalid token',
