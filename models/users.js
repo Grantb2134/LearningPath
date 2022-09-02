@@ -23,6 +23,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    twitter: {
+      type: DataTypes.STRING,
+    },
+    gitHub: {
+      type: DataTypes.STRING,
+    },
+    website: {
+      type: DataTypes.STRING,
+    },
   });
   return User;
 };

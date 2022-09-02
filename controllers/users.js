@@ -62,7 +62,6 @@ router.get('/:id', async (req, res) => {
 // @route    POST api/users
 // @desc     Create a user
 // @access   Public
-
 router.post(
   '/',
   [
@@ -176,6 +175,38 @@ router.delete('/:id', auth, async (req, res) => {
     } else {
       res.status(404).json({
         message: 'Unable to delete user',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'Internal Server Error',
+    });
+  }
+});
+
+// @route    PUT api/userId
+// @desc     Update user credentials
+// @access
+router.put('/:id', auth, async (req, res) => {
+  const {
+    email, twitter, gitHub, website,
+  } = req.body.user;
+  try {
+    const editUser = await User.update(
+      {
+        email, twitter, gitHub, website,
+      },
+      { where: { id: req.params.id } },
+    );
+
+    if (editUser) {
+      res.status(201).json({
+        message: 'Updated user',
+      });
+    } else {
+      res.status(404).json({
+        message: 'Unable to update user credentials',
       });
     }
   } catch (error) {
