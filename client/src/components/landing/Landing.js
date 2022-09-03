@@ -27,7 +27,7 @@ function Landing() {
           <Login />
         </div>
         <div className={styles.featured}>
-          <h2>Featured Posts</h2>
+          <h2>Featured Paths</h2>
         </div>
       </div>
     </>

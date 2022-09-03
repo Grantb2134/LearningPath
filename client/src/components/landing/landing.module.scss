@@ -1,16 +1,45 @@
+@import '../../styles/globals.scss';
+
 .body {
 	display: flex;
 	justify-content: space-around;
-	margin: 30px auto 0 auto;
-	width: 1000px;
+	margin: $space-lg auto 0 auto;
+	width: 950px;
 	div {
 		h2 {
-			margin-left: 10px;
-			margin-bottom: 20px;
+			margin-left: $space-sm;
+			margin-bottom: $space-md;
 		}
 	}
 
 	.featured > div {
 		width: 400px;
 	}
+
+	@include for-phone-only {
+		padding: 0 20px;
+		display: flex;
+		flex-direction: column-reverse;
+		align-items: center;
+		width: 100%;
+		div > {
+			h2 {
+				text-align: center;
+			}
+		}
+		h2 {
+			justify-content: center;
+		}
+	}
+	@include for-tablet-up {
+		max-width: 750px;
+		> div {
+			width: 100%;
+			margin: auto;
+		}
+	}
+	@include for-desktop-up {
+
+	}
+
 }

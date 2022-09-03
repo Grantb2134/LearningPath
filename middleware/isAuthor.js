@@ -9,10 +9,10 @@ module.exports = async function (req, res) {
     }
     const isAuthor = await Path.findOne({
       where: {
-        userId,
+        id: req.params.id,
       },
     });
-    if (isAuthor === null || isAuthor === undefined) {
+    if (isAuthor === null || isAuthor === undefined || isAuthor.userId !== req.user.id) {
       return 'Author not found.';
     }
   } catch (err) {

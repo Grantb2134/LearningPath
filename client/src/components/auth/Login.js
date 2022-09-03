@@ -9,7 +9,6 @@ function Login() {
     email: '',
     password: '',
   });
-
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,6 +27,7 @@ function Login() {
     dispatch(login({ email, password, username }));
     navigate('/dashboard');
   };
+
   return (
     <div className={styles.container}>
       <form onSubmit={onSubmit}>

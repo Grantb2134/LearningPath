@@ -17,6 +17,14 @@ export const getUser = createAsyncThunk(
   },
 );
 
+export const getUserByUsername = createAsyncThunk(
+  'users/getUserByUsername',
+  async (username) => {
+    const res = await api.get(`/users/username/${username}`);
+    return res.data;
+  },
+);
+
 export const changePassword = createAsyncThunk(
   'users/changePassword',
   async (passwordData) => {
@@ -38,6 +46,7 @@ export const changeSettings = createAsyncThunk(
         userToken: localStorage.getItem('userToken'),
       },
     };
+    console.log(userData);
     const res = await api.put('/users/credentials/', userData, config);
     return res.data;
   },
@@ -99,6 +108,16 @@ const usersSlice = createSlice({
     [getUser.rejected]: (state) => {
       state.loading = false;
     },
+    [getUserByUsername.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUserByUsername.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+    },
+    [getUserByUsername.rejected]: (state) => {
+      state.loading = false;
+    },
     [setCurrentPath.pending]: (state) => {
       state.loading = true;
     },
@@ -134,7 +153,7 @@ const usersSlice = createSlice({
     },
     [deleteUser.fulfilled]: (state, { payload: user }) => {
       state.loading = false;
-      usersAdapter.removeOne(state, user.id);
+      state.users = state.users.filter((singleUser) => singleUser.id !== parseInt(user.id));
     },
     [deleteUser.rejected]: (state) => {
       state.loading = false;

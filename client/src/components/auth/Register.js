@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import styles from './login.module.scss';
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import styles from './register.module.scss';
 import { createUser } from '../../slices/auth';
 
 function Register() {
@@ -11,6 +12,11 @@ function Register() {
     password: '',
     confirmPassword: '',
   });
+  const {
+    register, handleSubmit, getValues, watch, formState: { errors },
+  } = useForm();
+
+  const handleError = () => {};
 
   const {
     userInfo, success,
@@ -32,40 +38,84 @@ function Register() {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(createUser(newUser));
-    navigate('/auth/login');
+  };
+
+  const registerValidation = {
+    username: {
+      required: 'Username is required',
+      minLength: {
+        value: 3,
+        message: 'Username must have at least 3 characters',
+      },
+      maxLength: {
+        value: 24,
+        message: 'Username must have at most 24 characters',
+      },
+    },
+    email: {
+      required: 'Email is required',
+      pattern: {
+        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+        message: 'Invalid email address format',
+      },
+    },
+    password: {
+      required: 'Password is required',
+      minLength: {
+        value: 8,
+        message: 'Password must have at least 8 characters',
+      },
+      maxLength: {
+        value: 35,
+        message: 'Password must have at most 35 characters',
+      },
+      pattern: {
+        value: /[!@#$%^&*(),.?":{}|<>]/,
+        message: 'Password should have at least one sepcial character',
+      },
+    },
+    confirmPassword: {
+      required: 'Password is required',
+    },
   };
 
   return (
     <div className={styles.container}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit, handleError)}>
         <div>
           <label htmlFor="username">username</label>
-          <input type="tect" id="username" name="username" onChange={onChange} />
+          <input type="tect" id="username" {...register('username', registerValidation.username)} onChange={onChange} />
+          <p className="validation-error">{errors.username && errors.username.message}</p>
         </div>
         <div>
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" name="email" onChange={onChange} />
+          <input type="email" id="email" {...register('email', registerValidation.email)} onChange={onChange} />
+          <p className="validation-error">{errors.email && errors.email.message}</p>
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password" onChange={onChange} />
+          <input type="password" id="password" {...register('password', registerValidation.password)} onChange={onChange} />
+          <p className="validation-error">{errors.password && errors.password.message}</p>
         </div>
         <div>
           <label htmlFor="confirmPassword">Confirm Password</label>
-          <input type="password" id="confirmPassword" name="confirmPassword" onChange={onChange} />
+          <input
+            type="password"
+            id="confirmPassword"
+            onChange={onChange}
+            {...register('confirmPassword', registerValidation.confirmPassword)}
+          />
+          {watch('confirmPassword') !== watch('password')
+          && getValues('confirmPassword') ? (
+            <p className="validation-error">Passwords do not match</p>
+            ) : null}
         </div>
         <div>
           <button>Sign Up</button>
         </div>
       </form>
       <div>
-        <a href="http://www.google.com">Forgot password</a>
-      </div>
-      <div>
-        <p>
-          Don&apos;t have an account?
-          <a href="http://www.google.com">Sign Up</a>
-        </p>
+        <Link to="/auth/reset">Forgot password</Link>
       </div>
     </div>
   );

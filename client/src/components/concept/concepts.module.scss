@@ -1,26 +1,28 @@
+@import '../../styles/globals.scss';
+
 .container {
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: $space-md;
 
 	.concept {
 		display: flex;
 		flex-direction: column;
-		gap: 5px;
+		gap:$space-xs;
 		background-color: white;
-		border-radius: 5px;
-		border: 1px solid #C6C5C5;
-		padding: 20px 20px;
+		border-radius: $space-xxxs;
+		border: 1px solid $lpGrey;
+		padding: $space-md $space-md;
 		position: relative;
 		> #icons {
 			display: flex;
-			gap: 10px;
+			gap: $space-sm;
 			position: absolute;
 			top: 15px;
 			right: 15px;
 			i {
-				font-size:20px;
-				color: black;
+				font-size:$space-md;
+				color: $lpDark;
 				cursor: pointer;
 			}
 		}
@@ -28,8 +30,8 @@
 			position: absolute;
 			bottom: -21px;
 			left: 100px;
-			height: 20px;
-			border-left: 2px solid black;
+			height: $space-md;
+			border-left: 2px solid $lpDark
 		}
 		
 	}
@@ -38,4 +40,5 @@
 			display: none;
 		}
 	}
+	
 }

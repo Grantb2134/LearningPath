@@ -1,3 +1,5 @@
+@import '../../styles/globals.scss';
+
 .container {
 	background-image: url('../../../public/img/header.jpg');
 	background-size: cover;
@@ -19,8 +21,8 @@
 		margin-top: 80px;
 		color: white;
 		p {
-			margin-top: 10px;
-			margin-bottom: 30px;
+			margin-top: $space-sm;
+			margin-bottom: $space-lg;
 		}
 		button {
 			width: 150px;
@@ -30,4 +32,22 @@
 			cursor: pointer;
 		}
 	}
+	@include for-phone-only {
+		div:first-child {
+			display: none;
+		}
+		.text {
+			display: flex;
+			align-items: center;
+		}
+	}
+	@include for-tablet-up {
+		justify-content: space-between;
+		padding: 0 50px;
+	}
+	@include for-desktop-up {
+		justify-content: space-around;
+		padding: 0;
+	}
+
 }

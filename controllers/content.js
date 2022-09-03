@@ -211,14 +211,12 @@ router.put(
 // @route    DELETE api/content/:id
 // @desc     Delete content
 // @access   Private
-// @route    DELETE api/content/:id
-// @desc     Delete content
-// @access   Private
 router.delete('/:id', auth, isAuthor, async (req, res) => {
   try {
     const content = await Content.destroy({
       where: { id: req.params.id },
     });
+    console.log(req.params.id);
     if (content) {
       res.status(201).json({
         message: 'Content was deleted',

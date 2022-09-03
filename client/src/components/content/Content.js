@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { deleteContent } from '../../slices/contents';
@@ -7,8 +7,9 @@ import styles from './content.module.scss';
 function Content({ content }) {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((store) => store.auth);
-  const onDelete = useCallback((id) => dispatch(deleteContent(id)), []);
-
+  const onDelete = async (id) => {
+    dispatch(deleteContent(id));
+  };
   return (
     <div className={styles.container}>
       {content.length !== 0 ? content.map((singleContent) => (

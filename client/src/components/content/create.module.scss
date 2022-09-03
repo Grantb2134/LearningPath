@@ -1,22 +1,25 @@
+@import '../../styles/globals.scss';
+
 .container {
-	margin: 30px auto 0 auto;
-	padding: 60px;
+	margin: $space-lg auto 0 auto;
+	padding: $space-xxl;
 	width: 600px;
 	background-color: white;
-	border-radius: 5px;
+	border-radius: $space-xxxs;
 	form {
 		display: flex;
 		flex-direction: column;
-		gap: 20px;
+		gap: $space-md;
 		> div {
 			label {
-				display: flex;
-				flex-direction: column;
-				gap: 5px;
+					display: flex;
+					flex-direction: column;
+					gap: $space-xs;
 			}
 		}
 	}
 	input[type="submit"] {
-		width: 120px;
+		width: $space-md;
+		min-width: 100px;
 	}
 }

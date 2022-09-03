@@ -183,12 +183,18 @@ router.post(
   '/reset/:id/:token',
   [
     check('password')
-      .isLength({ min: 8, max: 15 })
+      .isLength({ min: 8, max: 35 })
       .withMessage('Your password should have min and max length between 8-15')
       .matches(/\d/)
       .withMessage('Your password should have at least one number')
       .matches(/[!@#$%^&*(),.?":{}|<>]/)
       .withMessage('Your password should have at least one sepcial character'),
+    check('confirmPassword').custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error('Confirm password does not match');
+      }
+      return true;
+    }),
   ],
   (req, res, next) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);

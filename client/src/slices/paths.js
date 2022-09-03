@@ -115,7 +115,7 @@ const pathsSlice = createSlice({
     },
     [deletePath.fulfilled]: (state, { payload: path }) => {
       state.loading = false;
-      pathsAdapter.removeOne(state, path.id);
+      state.paths = state.paths.filter((singlePath) => singlePath.id !== parseInt(path.id));
     },
     [deletePath.rejected]: (state) => {
       state.loading = false;
