@@ -1,10 +1,11 @@
+@import '../../../styles/globals.scss';
 .container {
 	> div {
 		display: flex;
 		flex-direction: column;
-		gap: 5px;
+		gap:$space-xs;
 		.progressBar {
-			height: 5px;
+			height:$space-xs;
 			width: 100%;
 			background-color: grey;
 			position: relative;
@@ -12,9 +13,9 @@
 			.progress {
 				position: absolute;
 				left: 0;
-				height: 5px;
+				height:$space-xs;
 				width: 35%;
-				background-color: #599671;
+				background-color: $lpGreen;
 				z-index: 2;
 			}
 		}

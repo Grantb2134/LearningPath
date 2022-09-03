@@ -30,6 +30,35 @@ router.get('/', async (req, res) => {
   }
 });
 
+// @route    GET api/users/username/:username
+// @desc     Get user by username
+// @access   Public   Public
+router.get('/username/:username', async (req, res) => {
+  const { username } = req.params;
+  try {
+    const getUser = await User.findOne({
+      where: {
+        username,
+      },
+      attributes: {
+        exclude: ['password', 'email'],
+      },
+    });
+    if (getUser) {
+      res.status(201).json(getUser);
+    } else {
+      res.status(404).json({
+        message: 'No User found in DB',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'Internal Server Error',
+    });
+  }
+});
+
 // @route    GET api/users/:id
 // @desc     Get user by ID
 // @access   Public   Public
@@ -66,7 +95,7 @@ router.post(
   '/',
   [
     check('username')
-      .isLength({ min: 3, max: 30 })
+      .isLength({ min: 3, max: 24 })
       .matches(/^[a-z0-9_.-]*$/i)
       .withMessage('The username must have minimum length of 3 characters, and have no spaces or special characters'),
 
@@ -76,8 +105,8 @@ router.post(
       .normalizeEmail(),
 
     check('password')
-      .isLength({ min: 8, max: 15 })
-      .withMessage('Your password should have min and max length between 8-15')
+      .isLength({ min: 8, max: 35 })
+      .withMessage('Your password should have min and max length between 8-35')
       .matches(/\d/)
       .withMessage('Your password should have at least one number')
       .matches(/[!@#$%^&*(),.?":{}|<>]/)
@@ -189,12 +218,12 @@ router.delete('/:id', auth, auth, async (req, res) => {
 // @access
 router.put('/credentials', auth, async (req, res) => {
   const {
-    email, twitter, gitHub, website,
+    email, twitter, github, website, bio,
   } = req.body;
   try {
     const editUser = await User.update(
       {
-        email, twitter, gitHub, website,
+        email, twitter, github, website, bio,
       },
       { where: { id: req.user.id } },
     );
@@ -320,37 +349,5 @@ router.put(
     }
   },
 );
-
-// @route    PUT api/users/credentials
-// @desc     Update user credentials
-// @access   Private
-router.put('/credentials', auth, async (req, res) => {
-  const {
-    email, twitter, gitHub, website,
-  } = req.body;
-  try {
-    const editUser = await User.update(
-      {
-        email, twitter, gitHub, website,
-      },
-      { where: { id: req.user.id } },
-    );
-
-    if (editUser) {
-      res.status(201).json({
-        message: 'Updated user',
-      });
-    } else {
-      res.status(404).json({
-        message: 'Unable to update user credentials',
-      });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: 'Internal Server Error',
-    });
-  }
-});
 
 module.exports = router;

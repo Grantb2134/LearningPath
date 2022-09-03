@@ -1,3 +1,5 @@
+@import './globals.scss';
+
 * {
 	box-sizing: border-box;
 }
@@ -24,10 +26,11 @@ body {
 	background-color: #F2F2F2;
 	margin: 0;
 	font-family: 'Open Sans', sans-serif;
+	color: $lpDark;
 }
 
 a {
-	color: #567CA8;
+	color: $linkColor;
 }
 
 ul {
@@ -46,14 +49,14 @@ label {
 input,
 textarea {
 	background-color: #F8F8F8;
-	border: 1px solid #C6C5C5;
-	border-radius: 5px;
-	padding: 10px 5px;
+	border: 1px solid $lpGrey;
+	border-radius: $space-xxxs;
+	padding: $space-sm$space-xs;
 }
 
 button {
 	padding: 8px;
-	border-radius: 5px;
+	border-radius: $space-xxxs;
 	background-color: transparent;
 	cursor: pointer;
 }
@@ -62,5 +65,21 @@ button {
 	display: flex;
 	justify-content: space-between;
 	background-color: white;
-	padding: 20px 80px;
+	padding: $space-md 80px;
+}
+
+.mobile-nav-button {
+	display: none;
+	font-size: 1.5rem;
+	i {
+		display: flex;
+		align-items: center;
+	}
+	@include for-phone-only {
+		display: block;
+	}
+}
+
+.validation-error {
+	color: $lpRed;
 }

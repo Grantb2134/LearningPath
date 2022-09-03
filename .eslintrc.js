@@ -45,6 +45,7 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'consistent-return': 'off',
     'array-callback-return': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
     'import/no-extraneous-dependencies': 'off',
     'no-await-in-loop': 'off',

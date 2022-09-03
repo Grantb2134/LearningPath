@@ -1,14 +1,16 @@
+@import '../../../styles/globals.scss';
+
 .container {
 	> div {
 		display: flex;
 		align-items: center;
-		gap: 5px;
+		gap:$space-xs;
 	}
 	a {
-		border: 2px solid#599671;
-		border-radius: 5px;
+		border: 2px solid $lpGreen;
+		border-radius: $space-xxxs;
 		text-decoration: none;
-		color: #599671;
+		color: $lpGreen;
 		padding-top: 8px;
 		padding-bottom: 8px;
 		display: flex;
@@ -18,7 +20,7 @@
 		width: 170px;
 		align-self: center;
 		>i {
-			background-color: #599671;
+			background-color: $lpGreen;
 			border-radius: 50%;
 			color: white;
 			font-size: 1.3rem;

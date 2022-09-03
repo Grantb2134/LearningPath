@@ -1,11 +1,11 @@
 .container {
 	a {
 		text-decoration: none;
-		color: #599671;
+		color: $lpGreen;
 		button {
-			border-color: #599671;
-			padding-top: 5px;
-			padding-bottom: 5px;
+			border-color: $lpGreen;
+			padding-top:$space-xs;
+			padding-bottom:$space-xs;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -13,7 +13,7 @@
 			width: 160px;
 			align-self: center;
 			> i {
-				background-color: #599671;
+				background-color: $lpGreen;
 				border-radius: 50%;
 				color: white;
 				font-size: 1.3rem;

@@ -1,16 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { deleteConcept } from '../../slices/concepts';
 import styles from './concepts.module.scss';
 
 function Concepts({ concepts }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { userInfo } = useSelector((store) => store.auth);
-  const onDelete = async (id, pathId) => {
+  const onDelete = async (id) => {
     dispatch(deleteConcept(id));
-    navigate(`/path/${pathId}`);
   };
   return (
     <div className={styles.container}>

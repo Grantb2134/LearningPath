@@ -1,10 +1,16 @@
+@import '../../styles/globals.scss';
+
 .circle {
-	width: 900px;
-	height: 900px;
-	background-color: #aab7cb;
-	border-radius: 50%;
-	position: absolute;
-	top: -600px;
-	left: -300px;
-	z-index:-1;
+	display: none;
+	@include for-tablet-up {
+		display: block;
+		width: 950px;
+		height: 950px;
+		background-color: #aab7cb;
+		border-radius: 50%;
+		position: absolute;
+		top: -600px;
+		left: -300px;
+		z-index:-1;
+	}
 }

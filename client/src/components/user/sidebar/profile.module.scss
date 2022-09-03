@@ -1,0 +1,41 @@
+@import '../../../styles/globals.scss';
+
+.sidebar {
+	display: flex;
+	align-items: center;
+	gap: $space-xl;
+	justify-content: center;
+	.picture {
+		height: 140px;
+		width: 140px;
+		background-color: #E8E8E8;
+		border-radius: 50%;
+		align-self: center;
+	}
+	a {
+		cursor: pointer;
+	}
+
+	@include for-desktop-up {
+		display: flex;
+		flex-direction: column;
+		.picture {
+			height: 180px;
+			width: 180px;
+		}
+	}
+
+	@include for-phone-only {
+		width: 80%;
+		display: flex;
+		margin: 0 auto;
+		gap: $space-sm;
+		.picture {
+			height: 100px;
+			width: 100px;
+			background-color: #E8E8E8;
+			border-radius: 50%;
+			align-self: center;
+		}
+	}
+}

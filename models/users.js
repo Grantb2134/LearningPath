@@ -23,10 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    bio: {
+      type: DataTypes.STRING,
+    },
     twitter: {
       type: DataTypes.STRING,
     },
-    gitHub: {
+    github: {
       type: DataTypes.STRING,
     },
     website: {

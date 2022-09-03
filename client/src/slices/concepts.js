@@ -115,7 +115,7 @@ const conceptsSlice = createSlice({
     },
     [deleteConcept.fulfilled]: (state, { payload: concept }) => {
       state.loading = false;
-      state.concepts = state.concepts.filter((el) => el.id !== concept.id);
+      state.concepts = state.concepts.filter((single) => single.id !== parseInt(concept.id));
     },
     [deleteConcept.rejected]: (state) => {
       state.loading = false;

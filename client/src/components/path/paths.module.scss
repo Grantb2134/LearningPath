@@ -1,31 +1,35 @@
+@import '../../styles/globals.scss';
+
+@import '../../styles/globals.scss';
+
 .container {
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: $space-md;
 	
 	.path {
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		gap: 5px;
+		gap:$space-xs;
 		background-color: white;
-		border-radius: 5px;
-		border: 1px solid #C6C5C5;
-		padding: 20px 20px;
+		border-radius: $space-xxxs;
+		border: 1px solid $lpGrey;
+		padding: $space-md $space-md;
 		> .icons {
 			position: absolute;
 			top: 15px;
 			right: 15px;
-			font-size:20px;
+			font-size:$space-md;
 			display: flex;
-			gap: 10px;
+			gap: $space-sm;
 			a {
 				> i{
 					display: flex;
 					align-items: flex-start;
 				}
 				text-decoration: none;
-				color: black;
+				color: $lpDark;
 			}
 			i {
 				cursor:pointer;
