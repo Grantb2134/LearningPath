@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = function (req, res, next) {
+const auth = (req, res, next) => {
   const token = req.header('userToken');
+  console.log('hello');
   if (!token) {
     return res.status(401).json({
       message: 'auth denied, token not found',
     });
   }
-
   try {
     jwt.verify(JSON.parse(token), process.env.jwtSecurity, (error, decoded) => {
       if (error) {
@@ -25,3 +25,5 @@ module.exports = function (req, res, next) {
     });
   }
 };
+
+module.exports = auth;

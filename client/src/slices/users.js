@@ -17,6 +17,47 @@ export const getUser = createAsyncThunk(
   },
 );
 
+export const changePassword = createAsyncThunk(
+  'users/changePassword',
+  async (passwordData) => {
+    const config = {
+      headers: {
+        userToken: localStorage.getItem('userToken'),
+      },
+    };
+    console.log(passwordData);
+    const res = await api.put('/users/password', passwordData, config);
+    return res.data;
+  },
+);
+
+export const changeSettings = createAsyncThunk(
+  'users/changeSettings',
+  async (userData) => {
+    const config = {
+      headers: {
+        userToken: localStorage.getItem('userToken'),
+      },
+    };
+    console.log(userData);
+    const res = await api.put('/users/credentials/', userData, config);
+    return res.data;
+  },
+);
+
+export const setCurrentPath = createAsyncThunk(
+  'users/currentPath',
+  async (pathId) => {
+    const config = {
+      headers: {
+        userToken: localStorage.getItem('userToken'),
+      },
+    };
+    const res = await api.put(`/users/currentPath/${pathId}`, {}, config);
+    return res.data;
+  },
+);
+
 export const deleteUser = createAsyncThunk(
   'users/deleteUser',
   async (id) => {
@@ -58,6 +99,36 @@ const usersSlice = createSlice({
       state.user = action.payload;
     },
     [getUser.rejected]: (state) => {
+      state.loading = false;
+    },
+    [setCurrentPath.pending]: (state) => {
+      state.loading = true;
+    },
+    [setCurrentPath.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+    },
+    [setCurrentPath.rejected]: (state) => {
+      state.loading = false;
+    },
+    [changeSettings.pending]: (state) => {
+      state.loading = true;
+    },
+    [changeSettings.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+    },
+    [changeSettings.rejected]: (state) => {
+      state.loading = false;
+    },
+    [changePassword.pending]: (state) => {
+      state.loading = true;
+    },
+    [changePassword.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+    },
+    [changePassword.rejected]: (state) => {
       state.loading = false;
     },
     [deleteUser.pending]: (state) => {

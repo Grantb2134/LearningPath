@@ -47,7 +47,9 @@ function Navbar() {
               </Link>
             </li>
             <li onClick={() => setDropdown(!dropdown)}>
-              <span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                <span>{userInfo.username}</span>
+                {' '}
                 <i className="las la-user-circle" />
               </span>
             </li>
@@ -64,6 +66,11 @@ function Navbar() {
             <li>
               <Link to={`/user/${userInfo.id}`}>
                 Profile
+              </Link>
+            </li>
+            <li>
+              <Link to="/user/account">
+                Settings
               </Link>
             </li>
             <li onClick={() => dispatch(logout())}>

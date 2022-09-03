@@ -19,7 +19,7 @@ function CreatePath() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPath({ path: newPath }));
+    dispatch(createPath(newPath));
     navigate('/path/create');
   };
   return (

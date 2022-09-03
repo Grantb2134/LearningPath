@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './progress.module.scss';
 
-function Progress() {
+function Progress({ title, description }) {
   return (
     <div className={styles.container}>
-      <h3>Current Path</h3>
+      <h3>{title}</h3>
       <div>
-        <p>Introduction to SQL Databases</p>
+        <p>{description}</p>
         <div className={styles.progressBar}>
           <div className={styles.progress} />
         </div>

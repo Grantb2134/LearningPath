@@ -9,6 +9,7 @@ function Register() {
     username: '',
     email: '',
     password: '',
+    confirmPassword: '',
   });
 
   const {
@@ -31,12 +32,14 @@ function Register() {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(createUser(newUser));
+    navigate('/auth/login');
   };
+
   return (
     <div className={styles.container}>
       <form onSubmit={onSubmit}>
         <div>
-          <label htmlFor="email">username</label>
+          <label htmlFor="username">username</label>
           <input type="tect" id="username" name="username" onChange={onChange} />
         </div>
         <div>
@@ -44,8 +47,12 @@ function Register() {
           <input type="email" id="email" name="email" onChange={onChange} />
         </div>
         <div>
-          <label htmlFor="email">Password</label>
+          <label htmlFor="password">Password</label>
           <input type="password" id="password" name="password" onChange={onChange} />
+        </div>
+        <div>
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" onChange={onChange} />
         </div>
         <div>
           <button>Sign Up</button>
