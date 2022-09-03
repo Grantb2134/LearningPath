@@ -11,6 +11,9 @@ const Content = db.contents;
 // @route    GET api/content
 // @desc     Get all content
 // @access   Public
+// @route    GET api/content
+// @desc     Get all content
+// @access   Public
 router.get('/', async (req, res) => {
   try {
     const allContents = await Content.findAll();
@@ -55,7 +58,7 @@ router.get('/:contentId', async (req, res) => {
 
 // @route    GET api/content/concept/:conceptId
 // @desc     Get content that belongs to a single concept
-// @access   Public
+// @access   Public   Public
 router.get('/concept/:conceptId', async (req, res) => {
   try {
     const content = await Content.findAll({
@@ -110,13 +113,15 @@ router.post(
   auth,
 
   async (req, res) => {
-    const { content } = req.body;
+    const {
+      title, description, link, conceptId,
+    } = req.body;
     try {
       const newContent = await Content.create({
-        title: content.title,
-        description: content.description,
-        link: content.link,
-        conceptId: content.conceptId,
+        title,
+        description,
+        link,
+        conceptId,
         userId: req.user.id,
       });
       if (newContent) {
@@ -177,7 +182,7 @@ router.put(
       description,
       title,
       link,
-    } = req.body.content;
+    } = req.body;
 
     try {
       const editContent = await Content.update(
@@ -186,7 +191,6 @@ router.put(
         },
         { where: { id: req.params.id } },
       );
-      console.log(editContent);
       if (editContent) {
         res.status(201).json({
           message: 'Updated content',
@@ -204,6 +208,9 @@ router.put(
   },
 );
 
+// @route    DELETE api/content/:id
+// @desc     Delete content
+// @access   Private
 // @route    DELETE api/content/:id
 // @desc     Delete content
 // @access   Private

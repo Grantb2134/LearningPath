@@ -106,12 +106,12 @@ router.post(
   auth,
 
   async (req, res) => {
-    const { concept } = req.body;
+    const { title, description, pathId } = req.body;
     try {
       const newConcept = await Concept.create({
-        title: concept.title,
-        description: concept.description,
-        pathId: concept.pathId,
+        title,
+        description,
+        pathId,
         userId: req.user.id,
       });
       if (newConcept) {
@@ -157,15 +157,12 @@ router.put(
     }
   },
   auth,
-
   isAuthor,
-
   async (req, res) => {
     const {
       description,
       title,
-    } = req.body.concept;
-    console.log(req.body);
+    } = req.body;
     try {
       const editConcept = await Concept.update(
         { title, description },

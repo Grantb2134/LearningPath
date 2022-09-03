@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
 const db = require('../models');
 const { transporter, getPasswordResetURL, resetPasswordTemplate } = require('../modules/email');
@@ -34,7 +35,6 @@ router.post(
   '/',
   async (req, res) => {
     const { email, password } = req.body;
-    console.log(req.body);
     try {
       const user = await User.findOne({
         where: {
@@ -164,7 +164,6 @@ router.post(
     const token = usePasswordHashToMakeToken(user.dataValues);
     const url = getPasswordResetURL(user, token);
     const emailTemplate = resetPasswordTemplate(user, url);
-    console.log(emailTemplate);
     const sendEmail = () => {
       transporter.sendMail(emailTemplate, (err) => {
         if (err) {
@@ -182,6 +181,23 @@ router.post(
 // @access   Public
 router.post(
   '/reset/:id/:token',
+  [
+    check('password')
+      .isLength({ min: 8, max: 15 })
+      .withMessage('Your password should have min and max length between 8-15')
+      .matches(/\d/)
+      .withMessage('Your password should have at least one number')
+      .matches(/[!@#$%^&*(),.?":{}|<>]/)
+      .withMessage('Your password should have at least one sepcial character'),
+  ],
+  (req, res, next) => {
+    const error = validationResult(req).formatWith(({ msg }) => msg);
+    if (!error.isEmpty()) {
+      res.status(422).json({ error: error.array() });
+    } else {
+      next();
+    }
+  },
   async (req, res) => {
     const { id, token } = req.params;
     const { password } = req.body;

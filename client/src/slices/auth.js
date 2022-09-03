@@ -34,6 +34,38 @@ export const login = createAsyncThunk(
   },
 );
 
+export const reset = createAsyncThunk(
+  'auth/reset',
+  async (resetUser, { rejectWithValue }) => {
+    try {
+      const res = await api.post(`/auth/reset/${resetUser.email}`);
+      return res.data;
+    } catch (error) {
+      // return custom error message from API if any
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      }
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const sendResetPassword = createAsyncThunk(
+  'auth/sendResetPassword',
+  async (resetUser, { rejectWithValue }) => {
+    try {
+      const res = await api.post(`/auth/reset/${resetUser.id}/${resetUser.token}`, { password: resetUser.password });
+      return res.data;
+    } catch (error) {
+      // return custom error message from API if any
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      }
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 export const currentUser = createAsyncThunk(
   'auth/currentUser',
   async (data, { rejectWithValue }) => {
@@ -103,6 +135,28 @@ const authSlice = createSlice({
       state.userToken = payload.token;
     },
     [login.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [reset.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [reset.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [reset.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [sendResetPassword.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [sendResetPassword.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [sendResetPassword.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },

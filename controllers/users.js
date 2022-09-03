@@ -11,7 +11,7 @@ const User = db.users;
 
 // @route    GET api/users
 // @desc     Get users
-// @access   Public
+// @access   Public   Public
 router.get('/', async (req, res) => {
   try {
     const allUsers = await User.findAll();
@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
 
 // @route    GET api/users/:id
 // @desc     Get user by ID
-// @access   Public
+// @access   Public   Public
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -85,7 +85,6 @@ router.post(
 
     check('confirmPassword').custom((value, { req }) => {
       if (value !== req.body.password) {
-        console.log(req.body.password, req.body.confirmPassword);
         throw new Error('Confirm password does not match');
       }
       return true;
@@ -159,8 +158,8 @@ router.post(
 
 // @route    DELETE api/users/:id
 // @desc     DELETE user
-// @access   Private
-router.delete('/:id', auth, async (req, res) => {
+// @access   Private   Private
+router.delete('/:id', auth, auth, async (req, res) => {
   try {
     const user = await User.destroy({
       where: {
@@ -188,16 +187,16 @@ router.delete('/:id', auth, async (req, res) => {
 // @route    PUT api/userId
 // @desc     Update user credentials
 // @access
-router.put('/:id', auth, async (req, res) => {
+router.put('/credentials', auth, async (req, res) => {
   const {
     email, twitter, gitHub, website,
-  } = req.body.user;
+  } = req.body;
   try {
     const editUser = await User.update(
       {
         email, twitter, gitHub, website,
       },
-      { where: { id: req.params.id } },
+      { where: { id: req.user.id } },
     );
 
     if (editUser) {
@@ -265,7 +264,6 @@ router.put(
       .withMessage('your password should have at least one sepcial character'),
     check('confirmPassword').custom((value, { req }) => {
       if (value !== req.body.password) {
-        console.log(req.body.password, req.body.confirmPassword);
         throw new Error('confirm password does not match');
       }
       return true;
@@ -329,7 +327,7 @@ router.put(
 router.put('/credentials', auth, async (req, res) => {
   const {
     email, twitter, gitHub, website,
-  } = req.body.user;
+  } = req.body;
   try {
     const editUser = await User.update(
       {

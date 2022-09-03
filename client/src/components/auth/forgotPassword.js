@@ -1,33 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import styles from './login.module.scss';
-import { login } from '../../slices/auth';
+import styles from './forgotPassword.module.scss';
+import { reset } from '../../slices/auth';
 
-function Login() {
-  const [loginUser, setLoginUser] = useState({
+function Reset() {
+  const [resetUser, setResetUser] = useState({
     email: '',
-    password: '',
   });
 
-  const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
+
   useEffect(() => {
     if (userInfo) {
       navigate('/');
     }
   }, [navigate, userInfo]);
 
-  const { email, password, username } = loginUser;
+  const { email } = resetUser;
 
-  const onChange = (e) => setLoginUser({ ...loginUser, [e.target.name]: e.target.value });
+  const onChange = (e) => setResetUser({ ...resetUser, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(login({ email, password, username }));
+    dispatch(reset({ email }));
     navigate('/dashboard');
   };
+
   return (
     <div className={styles.container}>
       <form onSubmit={onSubmit}>
@@ -36,16 +37,9 @@ function Login() {
           <input type="email" id="email" name="email" onChange={onChange} />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password" onChange={onChange} />
-        </div>
-        <div>
-          <button>Login</button>
+          <button>Reset</button>
         </div>
       </form>
-      <div>
-        <Link to="/auth/reset">Forgot password</Link>
-      </div>
       <div>
         <p>
           Don&apos;t have an account?
@@ -56,4 +50,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Reset;
