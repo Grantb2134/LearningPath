@@ -6,8 +6,8 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/landing/Landing';
 import Dashboard from './components/dashboard/Dashboard';
 import User from './components/user/User';
+import ChangePassword from './components/user/ChangePassword';
 import Register from './components/auth/Register';
-import Login from './components/auth/Login';
 import Path from './components/path/Path';
 import CreatePath from './components/path/Create';
 import EditPath from './components/path/Edit';
@@ -18,6 +18,10 @@ import CreateContent from './components/content/Create';
 import EditContent from './components/content/Edit';
 import { store } from './store';
 import Circle from './components/layout/Circle';
+import LoginPage from './components/auth/LoginPage';
+import ForgotPassword from './components/auth/forgotPassword';
+import Reset from './components/auth/Reset';
+import Edit from './components/user/Edit';
 
 function App() {
   return (
@@ -28,10 +32,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/auth/register" element={<Register />} />
           <Route path="/user/:id" element={<User />} />
+          <Route path="/user/account" element={<Edit />} />
+          <Route path="/user/password" element={<ChangePassword />} />
           <Route path="/auth/register" element={<Register />} />
-          <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/login" element={<LoginPage />} />
+          <Route path="/auth/reset" element={<ForgotPassword />} />
+          <Route path="/auth/reset/:id/:token" element={<Reset />} />
           <Route path="/path/:id" element={<Path />} />
           <Route path="/path/create" element={<CreatePath />} />
           <Route path="/path/edit/:id" element={<EditPath />} />

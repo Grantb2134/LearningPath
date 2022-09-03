@@ -17,8 +17,6 @@ app.use('/api/paths', paths);
 app.use('/api/concepts', concepts);
 app.use('/api/content', content);
 
-app.get('/', (req, res) => res.send('TEST!'));
-
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });

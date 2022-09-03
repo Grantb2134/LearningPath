@@ -20,7 +20,7 @@ function CreateConcept() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(createConcept({ concept: { title, description, pathId: id } }));
+    dispatch(createConcept({ title, description, pathId: id }));
     navigate(`/path/${id}`);
   };
 

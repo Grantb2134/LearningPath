@@ -15,7 +15,6 @@ DESCRIBE YOUR PULL REQUEST'S CHANGES.
 - [ ] Refactor (non-breaking change which does not add functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] This change requires a documentation update
-- [ ] Testing-
 
 ## Checklist ##
 

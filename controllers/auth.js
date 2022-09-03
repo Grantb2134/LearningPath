@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
 const db = require('../models');
 const { transporter, getPasswordResetURL, resetPasswordTemplate } = require('../modules/email');
@@ -27,31 +28,55 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route    Post api/auth
+// @route    POST api/auth
 // @desc     Authenticate user & get token
 // @access   Public
-router.post('/', async (req, res) => {
-  const { email } = req.body;
-  try {
-    const user = await User.findOne({
-      where: {
-        email,
-      },
-    });
-    if (user) {
-      res.status(201).json(user);
-    } else {
-      res.status(404).json({
-        message: 'No Users found in DB',
+router.post(
+  '/',
+  async (req, res) => {
+    const { email, password } = req.body;
+    try {
+      const user = await User.findOne({
+        where: {
+          email,
+        },
+        attributes: ['id', 'password', 'currentPath'],
       });
+
+      if (!user) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Invalid Credentials' }] });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Invalid Credentials' }] });
+      }
+
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+      jwt.sign(
+        payload,
+        process.env.jwtSecurity,
+        { expiresIn: '2 days' },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token, user: { id: user.id, currentPath: user.currentPath } });
+        },
+      );
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: 'Internal Server Error',
-    });
-  }
-});
+  },
+);
 
 // @route    POST api/auth
 // @desc     Authenticate user & get token
@@ -139,7 +164,6 @@ router.post(
     const token = usePasswordHashToMakeToken(user.dataValues);
     const url = getPasswordResetURL(user, token);
     const emailTemplate = resetPasswordTemplate(user, url);
-    console.log(emailTemplate);
     const sendEmail = () => {
       transporter.sendMail(emailTemplate, (err) => {
         if (err) {
@@ -157,6 +181,23 @@ router.post(
 // @access   Public
 router.post(
   '/reset/:id/:token',
+  [
+    check('password')
+      .isLength({ min: 8, max: 15 })
+      .withMessage('Your password should have min and max length between 8-15')
+      .matches(/\d/)
+      .withMessage('Your password should have at least one number')
+      .matches(/[!@#$%^&*(),.?":{}|<>]/)
+      .withMessage('Your password should have at least one sepcial character'),
+  ],
+  (req, res, next) => {
+    const error = validationResult(req).formatWith(({ msg }) => msg);
+    if (!error.isEmpty()) {
+      res.status(422).json({ error: error.array() });
+    } else {
+      next();
+    }
+  },
   async (req, res) => {
     const { id, token } = req.params;
     const { password } = req.body;

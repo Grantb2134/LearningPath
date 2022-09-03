@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styles from './header.module.scss';
 
 function Header() {
@@ -10,7 +11,7 @@ function Header() {
       <div className={styles.text}>
         <h1>Learning Path</h1>
         <p>Platform for finding paths to learn programming</p>
-        <button>Get Started</button>
+        <Link to="/auth/login"><button>Get Started</button></Link>
       </div>
     </header>
   );

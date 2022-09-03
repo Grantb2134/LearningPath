@@ -114,7 +114,7 @@ const contentsSlice = createSlice({
     },
     [deleteContent.fulfilled]: (state, { payload: content }) => {
       state.loading = false;
-      contentsAdapter.removeOne(state, content.id);
+      contentsAdapter.removeOne(content.id);
     },
     [deleteContent.rejected]: (state) => {
       state.loading = false;

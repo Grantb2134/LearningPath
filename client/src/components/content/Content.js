@@ -11,7 +11,7 @@ function Content({ content }) {
 
   return (
     <div className={styles.container}>
-      {content.map((singleContent) => (
+      {content.length !== 0 ? content.map((singleContent) => (
         <div key={singleContent.id} className={styles.content}>
           <h4><a href={singleContent.link}>{singleContent.title}</a></h4>
           <p>{singleContent.description}</p>
@@ -23,7 +23,12 @@ function Content({ content }) {
           )}
           <div className={styles.line} />
         </div>
-      ))}
+      ))
+        :(
+          <div>
+            Concept doesn&apos;t have content
+          </div>
+        )}
     </div>
   );
 }
