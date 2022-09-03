@@ -36,4 +36,4 @@ DESCRIBE YOUR PULL REQUEST'S CHANGES.
 
 - [ ] Is this a work in progress?
 - [ ] Is this ready to be reviewed?
-- [ ] Have you added two reviewers to this pull request?
+- [ ] Have you added a reviewer to this pull request?
