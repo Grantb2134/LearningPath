@@ -41,7 +41,7 @@ dataBase.contents = require('./content')(sequelizeDb, DataTypes);
 
 dataBase.sequelizeDb.sync({ force: false })
   .then(() => {
-    console.log('yes re-sync done!');
+    console.log('Re-sync done!');
   });
 
 dataBase.users.hasMany(dataBase.paths, {

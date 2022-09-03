@@ -97,8 +97,6 @@ router.post(
   ],
   (req, res, next) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);
-    console.log(req.body.title);
-    console.log(req.body.description);
     if (!error.isEmpty()) {
       res.status(422).json({ error: error.array() });
     } else {

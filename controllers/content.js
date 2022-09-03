@@ -191,7 +191,6 @@ router.put(
         },
         { where: { id: req.params.id } },
       );
-      console.log(editContent);
       if (editContent) {
         res.status(201).json({
           message: 'Updated content',

@@ -163,7 +163,6 @@ router.put(
       description,
       title,
     } = req.body;
-    console.log(req.body);
     try {
       const editConcept = await Concept.update(
         { title, description },

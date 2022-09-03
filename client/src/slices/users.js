@@ -25,7 +25,6 @@ export const changePassword = createAsyncThunk(
         userToken: localStorage.getItem('userToken'),
       },
     };
-    console.log(passwordData);
     const res = await api.put('/users/password', passwordData, config);
     return res.data;
   },
@@ -39,7 +38,6 @@ export const changeSettings = createAsyncThunk(
         userToken: localStorage.getItem('userToken'),
       },
     };
-    console.log(userData);
     const res = await api.put('/users/credentials/', userData, config);
     return res.data;
   },

@@ -12,7 +12,6 @@ function Concepts({ concepts }) {
     dispatch(deleteConcept(id));
     navigate(`/path/${pathId}`);
   };
-  console.log(concepts);
   return (
     <div className={styles.container}>
       {concepts.length !== 0

@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 
 const auth = (req, res, next) => {
   const token = req.header('userToken');
-  console.log('hello');
   if (!token) {
     return res.status(401).json({
       message: 'auth denied, token not found',
