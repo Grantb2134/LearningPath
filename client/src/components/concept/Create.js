@@ -32,8 +32,7 @@ function CreateConcept() {
 
   const onChange = (e) => setNewConcept({ ...newConcept, [e.target.name]: e.target.value });
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     dispatch(createConcept({ title, description, pathId: id }));
     navigate(`/path/${id}`);
   };

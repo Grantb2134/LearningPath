@@ -22,8 +22,7 @@ function CreatePath() {
 
   const onChange = (e) => setNewPath({ ...newPath, [e.target.name]: e.target.value });
   const handleError = () => {};
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     dispatch(createPath(newPath));
     navigate('/path/create');
   };

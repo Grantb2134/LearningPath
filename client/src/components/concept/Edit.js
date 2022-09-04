@@ -40,8 +40,7 @@ function Edit() {
   const { title, description } = editedConcept;
 
   const onChange = (e) => setEditedConcept({ ...editedConcept, [e.target.name]: e.target.value });
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     dispatch(editConcept({
       concept: {
         id, title, description,

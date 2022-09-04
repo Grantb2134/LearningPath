@@ -30,8 +30,7 @@ function Reset() {
 
   const onChange = (e) => setResetPassword({ ...resetPassword, [e.target.name]: e.target.value });
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     dispatch(sendResetPassword({ password, id, token }));
     navigate('/dashboard');
   };

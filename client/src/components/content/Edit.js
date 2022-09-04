@@ -38,8 +38,7 @@ function Edit() {
   const onChange = (e) => setEditedContent({ ...editedContent, [e.target.name]: e.target.value });
   const handleError = () => {};
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     dispatch(editContent({
       content: {
         id, title, description, link,

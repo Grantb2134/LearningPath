@@ -35,8 +35,7 @@ function Register() {
 
   const onChange = (e) => setNewUser({ ...newUser, [e.target.name]: e.target.value });
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     dispatch(createUser(newUser));
   };
 

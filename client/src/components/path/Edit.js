@@ -41,8 +41,7 @@ function Edit() {
   const { title, description } = editedPath;
 
   const onChange = (e) => setEditedPath({ ...editedPath, [e.target.name]: e.target.value });
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     dispatch(editPath({
       id, title, description,
     }));

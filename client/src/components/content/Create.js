@@ -32,8 +32,7 @@ function CreateContent() {
 
   const onChange = (e) => setNewContent({ ...newContent, [e.target.name]: e.target.value });
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     dispatch(createContent({
       title, description, link, conceptId: id,
     }));
