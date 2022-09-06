@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-// Creating an email to respond to users with. 
+// Creating an email to respond to users with.
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {

@@ -1,5 +1,5 @@
 # Introduction
-LearningPath is a platform where users can find and share learning curricula.
+LearningPath is a platform where users can find and share learning curriculum.
 
 ## Index
 
