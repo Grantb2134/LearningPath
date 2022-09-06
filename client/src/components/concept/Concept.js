@@ -38,9 +38,9 @@ function Concept() {
           )
           : <div>loading</div>}
         <aside className={styles.sidebar}>
-          {userInfo
+          {userInfo && userInfo.id === concept.userId
             ? <About buttonTitle="Add Content" buttonLink={`/content/create/concept/${id}`} author={concept.userId === userInfo.id} />
-            :null}
+            : null}
         </aside>
 
       </div>
