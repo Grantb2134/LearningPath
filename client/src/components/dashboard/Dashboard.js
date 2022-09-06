@@ -10,7 +10,7 @@ function Dashboard() {
   const dispatch = useDispatch();
   const { concepts } = useSelector((store) => store.concepts);
   const { path, loading: loadingPath } = useSelector((store) => store.paths);
-  const { userInfo, currentPath } = useSelector((store) => store.auth);
+  const { userInfo, currentPath, authLoading } = useSelector((store) => store.auth);
 
   const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ function Dashboard() {
     }
   }, [currentPath]);
 
-  if (loadingPath) {
+  if (loadingPath && authLoading) {
     return (
       <div>Loading</div>
     );
@@ -39,7 +39,7 @@ function Dashboard() {
             </div>
             <div className={styles.sidebar}>
               <div>
-                <h3>{userInfo.username}</h3>
+                <h3>{userInfo?userInfo.username:'Username'}</h3>
                 {path
                   ? <div>{path.description}</div>
                   : null}
