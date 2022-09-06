@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 
+// Creating an email to respond to users with. 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -10,6 +11,7 @@ const transporter = nodemailer.createTransport({
 
 const getPasswordResetURL = (user, token) => `http://localhost:3030/auth/reset/${user.id}/${token}`;
 
+// Creating a response that users will recieve when they reset password.
 const resetPasswordTemplate = (user, url) => {
   const from = process.env.EMAIL_LOGIN;
   const to = user.email;
