@@ -26,6 +26,7 @@
 
 	@include for-tablet-up {
 		max-width: 750px;
+		align-items: center;
 	}
 
 	@include for-desktop-up {
