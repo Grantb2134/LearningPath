@@ -31,7 +31,7 @@ function Path() {
           <Concepts concepts={concepts} />
         </div>
         <aside className={styles.sidebar}>
-          {userInfo
+          {userInfo && userInfo.id === path.userId
             ? <About buttonTitle="Add Concept" buttonLink={`/concept/create/path/${id}`} author={path.userId === userInfo.id} />
             :null}
         </aside>

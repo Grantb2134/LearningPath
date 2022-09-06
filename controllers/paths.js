@@ -113,11 +113,9 @@ router.post(
     check('title')
       .notEmpty()
       .withMessage('The title can not be empty'),
-
     check('description')
       .notEmpty()
       .withMessage('The description can not be empty'),
-
   ],
   (req, res, next) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);
@@ -164,7 +162,6 @@ router.put(
     check('title')
       .notEmpty()
       .withMessage('The title can not be empty'),
-
     check('description')
       .notEmpty()
       .withMessage('The description can not be empty'),
