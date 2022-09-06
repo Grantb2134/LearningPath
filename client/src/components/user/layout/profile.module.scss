@@ -29,17 +29,28 @@
 		}
 	}
 
-	@include for-phone-only {
-		width: 80%;
+	
+	@include for-tablet-up {
 		display: flex;
-		margin: 0 auto;
+		align-items: center;
+	}
+
+	@include for-phone-only {
+		width: 100%;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		justify-content: center;
 		gap: $space-sm;
 		.picture {
 			height: 100px;
 			width: 100px;
+			margin: auto;
 			background-color: #E8E8E8;
 			border-radius: 50%;
 			align-self: center;
+		}
+		.profile {
+			width: 100%;
 		}
 	}
 }
