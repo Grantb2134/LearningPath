@@ -13,7 +13,7 @@ function Register() {
     confirmPassword: '',
   });
   const {
-    register, handleSubmit, getValues, watch, formState: { errors },
+    register, handleSubmit, formState: { errors },
   } = useForm();
 
   const handleError = () => {};
@@ -28,15 +28,19 @@ function Register() {
 
   useEffect(() => {
     // redirect user to login page if registration was successful
-    if (success) navigate('/login');
+    if (success) navigate('/auth/login');
     // redirect authenticated user to profile screen
     if (userInfo) navigate('/dashboard');
-  }, [navigate, userInfo, success]);
+  }, [navigate, userInfo, success, newUser]);
 
   const onChange = (e) => setNewUser({ ...newUser, [e.target.name]: e.target.value });
 
   const onSubmit = () => {
-    dispatch(createUser(newUser));
+    if (newUser.password === newUser.confirmPassword) {
+      dispatch(createUser(newUser)).then(() => {
+        navigate('/auth/login');
+      });
+    }
   };
 
   const registerValidation = {
@@ -82,7 +86,7 @@ function Register() {
     <div className={styles.container}>
       <form onSubmit={handleSubmit(onSubmit, handleError)}>
         <div>
-          <label htmlFor="username">username</label>
+          <label htmlFor="username">Username</label>
           <input type="tect" id="username" {...register('username', registerValidation.username)} onChange={onChange} />
           <p className="validation-error">{errors.username && errors.username.message}</p>
         </div>
@@ -102,12 +106,11 @@ function Register() {
             type="password"
             id="confirmPassword"
             onChange={onChange}
-            {...register('confirmPassword', registerValidation.confirmPassword)}
+            name="confirmPassword"
           />
-          {watch('confirmPassword') !== watch('password')
-          && getValues('confirmPassword') ? (
-            <p className="validation-error">Passwords do not match</p>
-            ) : null}
+          {newUser.confirmPassword
+          && newUser.password !== newUser.confirmPassword
+          && <p className="validation-error">Confirmation password does not match.</p>}
         </div>
         <div>
           <button>Sign Up</button>

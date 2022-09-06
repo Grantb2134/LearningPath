@@ -3,28 +3,53 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { editContent, getContent } from '../../slices/contents';
-import styles from './edit.module.scss';
+import styles from '../layout/formDefaults.module.scss';
 
 function Edit() {
-  const navigate = useNavigate();
   const { id } = useParams();
-  const { content } = useSelector((store) => store.contents);
+  const { singleContent } = useSelector((store) => store.contents);
   const { userInfo } = useSelector((store) => store.auth);
   const [editedContent, setEditedContent] = useState({});
+  const { title, description, link } = editedContent;
+
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getContent(id)).then((res) => {
-      if (res.meta.requestStatus === 'fulfilled') {
-        setEditedContent(res.payload);
-        if (!userInfo||userInfo.id !== res.payload.userId) {
-          navigate(`/concept/${res.payload.conceptId}`);
-        }
-      }
-    });
-  }, []);
+
   const {
-    register, handleSubmit, formState: { errors },
+    register, handleSubmit, reset, formState: { errors },
   } = useForm();
+  const handleError = () => {};
+
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(getContent(id)).then((res) => {
+        if (res.meta.requestStatus === 'fulfilled') {
+          setEditedContent(res.payload);
+          if (userInfo.id !== res.payload.userId) {
+            navigate(`/user/${res.payload.userId}`);
+          }
+          reset({
+            title: res.payload.title,
+            link: res.payload.link,
+            description: res.payload.description,
+          });
+        }
+      });
+    } else {
+      navigate('/');
+    }
+  }, [userInfo]);
+
+  const onChange = (e) => setEditedContent({ ...editedContent, [e.target.name]: e.target.value });
+
+  const onSubmit = () => {
+    dispatch(editContent({
+      id, title, description, link,
+    })).then(() => {
+      navigate(`/concept/${singleContent.conceptId}`);
+    });
+  };
+
   const pathValidation = {
     title: {
       required: 'Title is required',
@@ -32,19 +57,13 @@ function Edit() {
     description: {
       required: 'Description is required',
     },
-  };
-  const { title, description, link } = editedContent;
-
-  const onChange = (e) => setEditedContent({ ...editedContent, [e.target.name]: e.target.value });
-  const handleError = () => {};
-
-  const onSubmit = () => {
-    dispatch(editContent({
-      content: {
-        id, title, description, link,
+    link: {
+      pattern: {
+        // eslint-disable-next-line no-useless-escape
+        value: /^((http|https|ftp|www):\/\/)?([a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]*)(\.)([a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]+)/,
+        message: 'Please enter a valid url',
       },
-    }));
-    navigate(`/concept/${content.conceptId}`);
+    },
   };
 
   return (
@@ -53,21 +72,21 @@ function Edit() {
         <div>
           <label>
             <span>Title:</span>
-            <input type="text" {...register('title', pathValidation.title)} onChange={onChange} value={title} />
+            <input type="text" {...register('title', pathValidation.title)} onChange={onChange} />
             <p className="validation-error">{errors.title && errors.title.message}</p>
           </label>
         </div>
         <div>
           <label>
             <span>Link:</span>
-            <input type="text" {...register('link', pathValidation.link)} onChange={onChange} value={link} />
+            <input type="text" {...register('link', pathValidation.link)} onChange={onChange} />
             <p className="validation-error">{errors.link && errors.link.message}</p>
           </label>
         </div>
         <div>
           <label>
             <span>Description:</span>
-            <textarea {...register('description', pathValidation.description)} onChange={onChange} value={description} />
+            <textarea {...register('description', pathValidation.description)} onChange={onChange} />
             <p className="validation-error">{errors.description && errors.description.message}</p>
           </label>
         </div>

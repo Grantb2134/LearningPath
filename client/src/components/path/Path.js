@@ -10,6 +10,7 @@ import { getConceptsByPathId } from '../../slices/concepts';
 function Path() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const { userInfo } = useSelector((store) => store.auth);
   const { concepts, loading } = useSelector((store) => store.concepts);
   const { path } = useSelector((store) => store.paths);
 
@@ -17,13 +18,11 @@ function Path() {
     dispatch(getConceptsByPathId(id));
     dispatch(getPath(id));
   }, []);
-
   if (loading || path === null) {
     return (
       <div>Loading</div>
     );
   }
-
   return (
     <div className={styles.container}>
       <h2>{path.title}</h2>
@@ -32,7 +31,9 @@ function Path() {
           <Concepts concepts={concepts} />
         </div>
         <aside className={styles.sidebar}>
-          <About buttonTitle="Add Concept" buttonLink={`/concept/create/path/${id}`} />
+          {userInfo
+            ? <About buttonTitle="Add Concept" buttonLink={`/concept/create/path/${id}`} author={path.userId === userInfo.id} />
+            :null}
         </aside>
       </div>
     </div>

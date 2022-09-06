@@ -13,7 +13,6 @@
     "pre-commit": "npm run lint"
   },
   "dependencies": {
-    "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.7",
     "cors": "^2.8.5",

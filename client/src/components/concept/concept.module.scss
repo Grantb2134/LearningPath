@@ -3,7 +3,8 @@
 .container {
 	margin: $space-lg auto 0 auto;
 	width: 100%;
-	padding: 0 $space-md;
+	max-width: 950px;
+	
 	h2 {
 		margin-bottom: 15px;
 	}
@@ -34,6 +35,10 @@
 			display: grid;
 			grid-template-columns: 1fr 250px;
 			gap: $space-md;
+		}
+		
+		h2 {
+			justify-content: flex-start;
 		}
 	}
 

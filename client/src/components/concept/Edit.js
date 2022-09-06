@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { editConcept, getConcept } from '../../slices/concepts';
-import styles from './edit.module.scss';
+import styles from '../layout/formDefaults.module.scss';
 
 function Edit() {
-  const navigate = useNavigate();
   const { id } = useParams();
   const { concept } = useSelector((store) => store.concepts);
   const { userInfo } = useSelector((store) => store.auth);
@@ -14,20 +13,32 @@ function Edit() {
     title: '',
     description: '',
   });
+
+  const {
+    register, handleSubmit, reset, formState: { errors },
+  } = useForm();
+
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getConcept(id)).then((res) => {
-      if (res.meta.requestStatus === 'fulfilled') {
-        setEditedConcept(res.payload);
-        if (!userInfo||userInfo.id !== res.payload.userId) {
-          navigate(`/path/${res.payload.pathId}`);
+    if (userInfo) {
+      dispatch(getConcept(id)).then((res) => {
+        if (res.meta.requestStatus === 'fulfilled') {
+          setEditedConcept(res.payload);
+          if (userInfo.id !== res.payload.userId) {
+            navigate(`/concept/${res.payload.id}`);
+          }
+          reset({
+            title: res.payload.title,
+            description: res.payload.description,
+          });
         }
-      }
-    });
-  }, []);
-  const {
-    register, handleSubmit, formState: { errors },
-  } = useForm();
+      });
+    } else {
+      navigate('/');
+    }
+  }, [userInfo]);
+
   const handleError = () => {};
   const pathValidation = {
     title: {
@@ -42,11 +53,10 @@ function Edit() {
   const onChange = (e) => setEditedConcept({ ...editedConcept, [e.target.name]: e.target.value });
   const onSubmit = () => {
     dispatch(editConcept({
-      concept: {
-        id, title, description,
-      },
-    }));
-    navigate(`/path/${concept.pathId}`);
+      id, title, description,
+    })).then(() => {
+      navigate(`/concept/${concept.pathId}`);
+    });
   };
 
   return (
@@ -55,14 +65,14 @@ function Edit() {
         <div>
           <label>
             <span>Title:</span>
-            <input type="text" {...register('title', pathValidation.title)} onChange={onChange} value={title} />
+            <input type="text" {...register('title', pathValidation.title)} onChange={onChange} />
             <p className="validation-error">{errors.title && errors.title.message}</p>
           </label>
         </div>
         <div>
           <label>
             <span>Description:</span>
-            <textarea {...register('description', pathValidation.description)} onChange={onChange} value={description} />
+            <textarea {...register('description', pathValidation.description)} onChange={onChange} />
             <p className="validation-error">{errors.description && errors.description.message}</p>
           </label>
         </div>

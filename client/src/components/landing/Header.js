@@ -11,7 +11,7 @@ function Header() {
       <div className={styles.text}>
         <h1>Learning Path</h1>
         <p>Platform for finding paths to learn programming</p>
-        <Link to="/auth/login"><button>Get Started</button></Link>
+        <Link to="/auth/register"><button>Get Started</button></Link>
       </div>
     </header>
   );

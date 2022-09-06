@@ -4,9 +4,11 @@
 	margin: $space-lg auto 0 auto;
 	width: 100%;
 	max-width: 950px;
+
 	h2 {
 		margin-bottom: 15px;
 	}
+
 	> div {
 		display: flex;
 		flex-direction: column-reverse;
@@ -20,6 +22,7 @@
 			justify-content: center;
 		}
 	}
+
 	@include for-tablet-up {
 		
 		display: flex;
@@ -34,6 +37,7 @@
 			justify-content: center;
 		}
 	}
+
 	@include for-desktop-up {
 
 		> div {
@@ -43,18 +47,22 @@
 			grid-template-columns: 1fr 250px;
 			gap: $space-md;
 		}
+		
+		h2 {
+			justify-content: flex-start;
+		}
 	}
-
 }
 
 .sidebar {
 	display: flex;
 	flex-direction: column;
 	gap: $space-sm;
+
 	> div {
 		display: flex;
 		flex-direction: column;
-		gap: $space-sm;
+		gap: $space-xs;
 		background-color: white;
 		border-radius: $space-xxxs;
 		padding: $space-md $space-lg;

@@ -220,54 +220,25 @@ router.put('/credentials', auth, async (req, res) => {
   const {
     email, twitter, github, website, bio,
   } = req.body;
+  const { id } = req.user;
   try {
     const editUser = await User.update(
       {
         email, twitter, github, website, bio,
       },
-      { where: { id: req.user.id } },
+      {
+        where: { id },
+      },
     );
 
     if (editUser) {
       res.status(201).json({
         message: 'Updated user',
+        id,
       });
     } else {
       res.status(404).json({
         message: 'Unable to update user credentials',
-      });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: 'Internal Server Error',
-    });
-  }
-});
-
-// @route    PUT api/user/currentPathId
-// @desc     Set current user path
-// @access   Private
-router.put('/currentPath', auth, async (req, res) => {
-  try {
-    const currentUserPath = await User.update(
-      {
-        currentPath: req.body.pathId,
-      },
-      {
-        where: {
-          id: req.user.id,
-        },
-      },
-    );
-
-    if (currentUserPath) {
-      res.status(201).json({
-        message: 'User path set',
-      });
-    } else {
-      res.status(404).json({
-        message: 'Current path not found',
       });
     }
   } catch (error) {
@@ -319,7 +290,6 @@ router.put(
         },
       },
     );
-
     const isMatch = await bcrypt.compare(currentPassword, user.password);
 
     if (!isMatch) {

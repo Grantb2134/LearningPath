@@ -4,7 +4,6 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const db = require('../models');
 const auth = require('../middleware/auth');
-const isAuthor = require('../middleware/isAuthor');
 
 const Concept = db.concepts;
 
@@ -157,7 +156,6 @@ router.put(
     }
   },
   auth,
-  isAuthor,
   async (req, res) => {
     const {
       description,

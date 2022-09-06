@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import styles from './changePassword.module.scss';
 import { changePassword } from '../../slices/users';
+import SettingsNav from './layout/SettingsNav';
 
 function ChangePassword() {
   const [inputData, setInputData] = useState({
@@ -11,10 +12,18 @@ function ChangePassword() {
     confirmPassword: '',
     currentPassword: '',
   });
+
   const [confirmPasswordMessage, setConfirmPasswordMessage] = useState('');
 
+  const { password, confirmPassword, currentPassword } = inputData;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { userInfo } = useSelector((store) => store.auth);
+
+  useEffect(() => {
+    if (!userInfo) navigate('/');
+  }, [userInfo]);
+
   const {
     register, handleSubmit, formState: { errors },
   } = useForm();
@@ -44,8 +53,6 @@ function ChangePassword() {
     },
   };
 
-  const { password, confirmPassword, currentPassword } = inputData;
-
   const onSubmit = () => {
     if (password !== confirmPassword) {
       return setConfirmPasswordMessage('Passwords do not much');
@@ -57,6 +64,7 @@ function ChangePassword() {
 
   return (
     <div className={styles.container}>
+      <SettingsNav />
       <form onSubmit={handleSubmit(onSubmit, handleError)}>
         <div>
           <label htmlFor="currentPassword">Current Password</label>

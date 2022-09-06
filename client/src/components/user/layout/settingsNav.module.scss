@@ -1,0 +1,16 @@
+@import '../../../styles/globals.scss';
+
+.nav {
+	margin-bottom: 30px;
+
+	ul {
+		display: flex;
+		justify-content: center;
+		gap: 30px;
+		li {
+			a {
+				color: $lpDark;
+			}
+		}
+	}
+}

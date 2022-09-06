@@ -1,12 +1,16 @@
 const jwt = require('jsonwebtoken');
 
 const auth = (req, res, next) => {
+  // Token from header
   const token = req.header('userToken');
+
+  // Check if there is token in the header
   if (!token) {
     return res.status(401).json({
       message: 'auth denied, token not found',
     });
   }
+  // Token verification
   try {
     jwt.verify(JSON.parse(token), process.env.jwtSecurity, (error, decoded) => {
       if (error) {
@@ -14,6 +18,7 @@ const auth = (req, res, next) => {
           message: 'Invalid token',
         });
       }
+      // Pass the decoded user to req.user
       req.user = decoded.user;
       next();
     });

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { createPath } from '../../slices/paths';
-import styles from './create.module.scss';
+import styles from '../layout/formDefaults.module.scss';
 
 function CreatePath() {
   const navigate = useNavigate();
@@ -23,8 +23,10 @@ function CreatePath() {
   const onChange = (e) => setNewPath({ ...newPath, [e.target.name]: e.target.value });
   const handleError = () => {};
   const onSubmit = () => {
-    dispatch(createPath(newPath));
-    navigate('/path/create');
+    dispatch(createPath(newPath))
+      .then((res) => {
+        navigate(`/path/${res.payload.newPath.id}`);
+      });
   };
 
   const pathValidation = {

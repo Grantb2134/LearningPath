@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentUser, logout } from '../../slices/auth';
 import styles from './navbar.module.scss';
@@ -11,6 +11,7 @@ function Navbar() {
   const linksContainerRef = useRef(null);
   const dispatch = useDispatch();
   const dropdownRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // authenticate user if token is found
@@ -44,16 +45,18 @@ function Navbar() {
     };
   }, [userToken, dispatch, dropdown, mobileNav]);
 
-  const toggleLinks = () => {
-    setMobileNav(!mobileNav);
+  const signOut = () => {
+    dispatch(logout());
+    navigate('/');
   };
+
   return (
     <nav className={styles.container}>
       <Link id={styles.logo} to="/">
         <i className="las la-road" />
         LearningPath
       </Link>
-      <i onClick={toggleLinks} className="las la-bars mobile-nav-button" />
+      <i onClick={() => setMobileNav(!mobileNav)} className="las la-bars mobile-nav-button" />
       <div className={styles.mobileNavigation} ref={linksContainerRef}>
         <ul className={styles.mobileNav}>
           {userInfo ? (
@@ -73,7 +76,7 @@ function Navbar() {
                   Settings
                 </Link>
               </li>
-              <li onClick={() => dispatch(logout())}>
+              <li onClick={() => signOut()}>
                 <span>
                   Sign Out
                 </span>
@@ -123,7 +126,7 @@ function Navbar() {
                 Settings
               </Link>
             </li>
-            <li onClick={() => dispatch(logout())}>
+            <li onClick={() => signOut()}>
               <span>
                 Sign Out
               </span>

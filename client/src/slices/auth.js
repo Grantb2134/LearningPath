@@ -8,7 +8,6 @@ export const createUser = createAsyncThunk(
       const res = await api.post('/users/', newUser);
       return res.data;
     } catch (error) {
-      // return custom error message from API if any
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       }
@@ -25,7 +24,6 @@ export const login = createAsyncThunk(
       localStorage.setItem('userToken', JSON.stringify(res.data.token));
       return res.data;
     } catch (error) {
-      // return custom error message from API if any
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       }
@@ -41,7 +39,6 @@ export const reset = createAsyncThunk(
       const res = await api.post(`/auth/reset/${resetUser.email}`);
       return res.data;
     } catch (error) {
-      // return custom error message from API if any
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       }
@@ -57,12 +54,24 @@ export const sendResetPassword = createAsyncThunk(
       const res = await api.post(`/auth/reset/${resetUser.id}/${resetUser.token}`, { password: resetUser.password });
       return res.data;
     } catch (error) {
-      // return custom error message from API if any
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       }
       return rejectWithValue(error.message);
     }
+  },
+);
+
+export const setCurrentPath = createAsyncThunk(
+  'auth/currentPath',
+  async (pathId) => {
+    const config = {
+      headers: {
+        userToken: localStorage.getItem('userToken'),
+      },
+    };
+    const res = await api.put(`/auth/currentPath/${pathId}`, {}, config);
+    return res.data;
   },
 );
 
@@ -97,7 +106,8 @@ const initialState = {
   userInfo: null,
   userToken,
   error: null,
-  success: false, // for monitoring the registration process.
+  success: false,
+  currentPath: null,
 };
 
 const authSlice = createSlice({
@@ -119,7 +129,7 @@ const authSlice = createSlice({
     },
     [createUser.fulfilled]: (state) => {
       state.loading = false;
-      state.success = true; // registration successful
+      state.success = true;
     },
     [createUser.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -132,6 +142,7 @@ const authSlice = createSlice({
     [login.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.userInfo = payload.user;
+      state.currentPath = payload.user.currentPath;
       state.userToken = payload.token;
     },
     [login.rejected]: (state, { payload }) => {
@@ -148,6 +159,16 @@ const authSlice = createSlice({
     [reset.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
+    },
+    [setCurrentPath.pending]: (state) => {
+      state.loading = true;
+    },
+    [setCurrentPath.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.currentPath = payload.id;
+    },
+    [setCurrentPath.rejected]: (state) => {
+      state.loading = false;
     },
     [sendResetPassword.pending]: (state) => {
       state.loading = true;
@@ -166,6 +187,7 @@ const authSlice = createSlice({
     [currentUser.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.userInfo = payload;
+      state.currentPath = payload.currentPath;
     },
     [currentUser.rejected]: (state) => {
       state.loading = false;

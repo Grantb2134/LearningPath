@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { createContent } from '../../slices/contents';
-import styles from './create.module.scss';
+import { createContent, getContentByConceptId } from '../../slices/contents';
+import styles from '../layout/formDefaults.module.scss';
 
 function CreateContent() {
-  const navigate = useNavigate();
   const { id } = useParams();
 
   const [newContent, setNewContent] = useState({
@@ -14,12 +13,32 @@ function CreateContent() {
     description: '',
     link: '',
   });
+  const { title, description, link } = newContent;
+  const { userInfo } = useSelector((store) => store.auth);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
     register, handleSubmit, formState: { errors },
   } = useForm();
+
   const handleError = () => {};
+
+  const onChange = (e) => setNewContent({ ...newContent, [e.target.name]: e.target.value });
+
+  useEffect(() => {
+    if (!userInfo) navigate('/');
+  }, [userInfo]);
+
+  const onSubmit = () => {
+    dispatch(createContent({
+      title, description, link, conceptId: id,
+    })).then(() => {
+      dispatch(getContentByConceptId(id));
+    });
+    navigate(`/concept/${id}`);
+  };
+
   const pathValidation = {
     title: {
       required: 'Title is required',
@@ -27,16 +46,13 @@ function CreateContent() {
     description: {
       required: 'Description is required',
     },
-  };
-  const { title, description, link } = newContent;
-
-  const onChange = (e) => setNewContent({ ...newContent, [e.target.name]: e.target.value });
-
-  const onSubmit = () => {
-    dispatch(createContent({
-      title, description, link, conceptId: id,
-    }));
-    navigate(`/concept/${id}`);
+    link: {
+      pattern: {
+        // eslint-disable-next-line no-useless-escape
+        value: /^((http|https|ftp|www):\/\/)?([a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]*)(\.)([a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]+)/,
+        message: 'Please enter a valid url',
+      },
+    },
   };
 
   return (

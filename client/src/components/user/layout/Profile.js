@@ -1,25 +1,19 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styles from './profile.module.scss';
-import { getUser } from '../../../slices/users';
 
-function User({ id }) {
-  const dispatch = useDispatch();
+function Profile({ id }) {
   const { user } = useSelector((store) => store.users);
   const { userInfo } = useSelector((store) => store.auth);
-
-  useEffect(() => {
-    dispatch(getUser(id));
-  }, []);
 
   if (!user && !userInfo) {
     return <div>Loading</div>;
   }
   return (
     <aside className={styles.sidebar}>
-      <div className={styles.picture} />
+      <img className={styles.picture} src="/img/profile.jpg" alt="User profile" />
       { user
         && !user.website
         && !user.twitter
@@ -38,7 +32,7 @@ function User({ id }) {
             : <p>User didn&apos;t set personal credentials yet.</p>
         )
         : (
-          <div>
+          <div className={styles.profile}>
             {user.bio&&<p>{user.bio}</p>}
             <ul>
               {user.website &&(
@@ -74,4 +68,4 @@ function User({ id }) {
   );
 }
 
-export default User;
+export default Profile;

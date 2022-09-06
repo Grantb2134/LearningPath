@@ -48,7 +48,8 @@ function Login() {
       </div>
       <div>
         <p>
-          Don&apos;t have an account?
+          Don&apos;t have an account
+          {' '}
           <Link to="/auth/register">Sign Up</Link>
         </p>
       </div>

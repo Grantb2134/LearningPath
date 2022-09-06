@@ -35,7 +35,7 @@ export const editContent = createAsyncThunk(
         userToken: localStorage.getItem('userToken'),
       },
     };
-    const res = await api.put(`/content/${content.content.id}`, content, config);
+    const res = await api.put(`/content/${content.id}`, content, config);
     return res.data;
   },
 );
@@ -70,6 +70,7 @@ const contentsAdapter = createEntityAdapter({
 
 const initialState = {
   content: null,
+  singleContent: null,
   loading: true,
 };
 
@@ -84,7 +85,7 @@ const contentsSlice = createSlice({
     },
     [getContents.fulfilled]: (state, action) => {
       state.loading = false;
-      contentsAdapter.setAll(state, action.payload);
+      contentsAdapter.setAll(state, action.payload.newContent);
     },
     [getContents.rejected]: (state) => {
       state.loading = false;
@@ -94,7 +95,7 @@ const contentsSlice = createSlice({
     },
     [getContent.fulfilled]: (state, action) => {
       state.loading = false;
-      state.content = action.payload;
+      state.singleContent = action.payload;
     },
     [getContent.rejected]: (state) => {
       state.loading = false;
@@ -122,9 +123,8 @@ const contentsSlice = createSlice({
     [createContent.pending]: (state) => {
       state.loading = true;
     },
-    [createContent.fulfilled]: (state, { payload }) => {
+    [createContent.fulfilled]: (state) => {
       state.loading = false;
-      state.loading = payload;
     },
     [createContent.rejected]: (state) => {
       state.loading = false;
@@ -132,9 +132,8 @@ const contentsSlice = createSlice({
     [editContent.pending]: (state) => {
       state.loading = true;
     },
-    [editContent.fulfilled]: (state, { payload }) => {
+    [editContent.fulfilled]: (state) => {
       state.loading = false;
-      state.loading = payload;
     },
     [editContent.rejected]: (state) => {
       state.loading = false;
@@ -146,9 +145,7 @@ export const contentsSelectors = contentsAdapter.getSelectors(
   (state) => state.contents,
 );
 
-// Extract the action creators object and the reducer
 const { actions, reducer } = contentsSlice;
-// Extract and export each action creator by name
 export const { setAllContents } = actions;
 
 export default reducer;
