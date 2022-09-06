@@ -3,7 +3,6 @@
 .container {
 	margin: $space-lg auto 0 auto;
 	padding: $space-xxl;
-	width: 600px;
 	background-color: white;
 	border-radius: $space-xxxs;
 	form {
@@ -17,17 +16,22 @@
 				gap:$space-xs;
 			}
 		}
-	}
-	input[type="submit"] {
-		width: $space-md;
-		min-width: 100px;
+		input[type="submit"] {
+			width: $space-xs;
+			min-width: 120px;
+		}
 	}
 
 	@include for-phone-only {
 		width: 100%;
+		max-width: 500px;
 	}
 	@include for-tablet-up {
-		width: 100%;
+		width: 500px;
+	}
+	
+	@include for-desktop-up {
+		width: 600px;
 	}
 
 }

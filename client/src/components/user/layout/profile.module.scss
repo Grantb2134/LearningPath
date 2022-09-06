@@ -1,10 +1,8 @@
 @import '../../../styles/globals.scss';
 
 .sidebar {
-	display: flex;
-	align-items: center;
-	gap: $space-xl;
-	justify-content: center;
+	gap: $space-xs;
+	margin-top: 40px;
 	.picture {
 		height: 140px;
 		width: 140px;
@@ -12,9 +10,15 @@
 		border-radius: 50%;
 		align-self: center;
 	}
-	a {
-		cursor: pointer;
+	.profile {
+		p {
+			margin: $space-sm;
+		}
+		a {
+			cursor: pointer;
+		}
 	}
+	
 
 	@include for-desktop-up {
 		display: flex;

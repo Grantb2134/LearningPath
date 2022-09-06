@@ -43,6 +43,7 @@ function Reset() {
       <div>
         <p>
           Don&apos;t have an account?
+          {' '}
           <Link to="/auth/register">Sign Up</Link>
         </p>
       </div>

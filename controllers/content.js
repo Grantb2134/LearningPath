@@ -4,13 +4,9 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const db = require('../models');
 const auth = require('../middleware/auth');
-const isAuthor = require('../middleware/isAuthor');
 
 const Content = db.contents;
 
-// @route    GET api/content
-// @desc     Get all content
-// @access   Public
 // @route    GET api/content
 // @desc     Get all content
 // @access   Public
@@ -174,9 +170,6 @@ router.put(
   },
 
   auth,
-
-  isAuthor,
-
   async (req, res) => {
     const {
       description,
@@ -211,12 +204,11 @@ router.put(
 // @route    DELETE api/content/:id
 // @desc     Delete content
 // @access   Private
-router.delete('/:id', auth, isAuthor, async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const content = await Content.destroy({
       where: { id: req.params.id },
     });
-    console.log(req.params.id);
     if (content) {
       res.status(201).json({
         message: 'Content was deleted',

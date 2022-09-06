@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       },
     },
+    featured: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
   });
   return Path;
 };

@@ -12,10 +12,10 @@ function Concepts({ concepts }) {
   };
   return (
     <div className={styles.container}>
-      {concepts.length !== 0
+      {concepts
         ? concepts.map((concept) => (
-          <div className={styles.concept}>
-            <Link to={`/concept/${concept.id}`}><h4>{concept.title}</h4></Link>
+          <div key={concept.id} className={styles.concept}>
+            <h4><Link to={`/concept/${concept.id}`}>{concept.title}</Link></h4>
             <p>{concept.description}</p>
             {userInfo&&userInfo.id === concept.userId &&(
             <div id={styles.icons}>
@@ -28,7 +28,7 @@ function Concepts({ concepts }) {
         ))
         :(
           <div>
-            Path doesn&apos;t have concepts
+            Path doesn&apos;t have concepts.
           </div>
         )}
     </div>

@@ -3,31 +3,39 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { editPath, getPath } from '../../slices/paths';
-import styles from './edit.module.scss';
+import styles from '../layout/formDefaults.module.scss';
 
 function Edit() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { path } = useSelector((store) => store.paths);
   const { userInfo } = useSelector((store) => store.auth);
   const [editedPath, setEditedPath] = useState({
     title: '',
     description: '',
   });
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getPath(id)).then((res) => {
-      if (res.meta.requestStatus === 'fulfilled') {
-        setEditedPath(res.payload);
-        if (!userInfo||userInfo.id !== res.payload.userId) {
-          navigate(`/user/${res.payload.userId}`);
-        }
-      }
-    });
-  }, []);
+
   const {
-    register, handleSubmit, formState: { errors },
+    register, handleSubmit, reset, formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(getPath(id)).then((res) => {
+        if (res.meta.requestStatus === 'fulfilled') {
+          setEditedPath(res.payload);
+          if (userInfo.id !== res.payload.userId) {
+            navigate(`/user/${res.payload.userId}`);
+          }
+          reset({
+            title: res.payload.title,
+            description: res.payload.description,
+          });
+        }
+      });
+    }
+  }, [userInfo]);
+
   const handleError = () => {};
   const pathValidation = {
     title: {
@@ -44,8 +52,9 @@ function Edit() {
   const onSubmit = () => {
     dispatch(editPath({
       id, title, description,
-    }));
-    navigate(`/user/${path.userId}`);
+    })).then(() => {
+      navigate(`/path/${id}`);
+    });
   };
 
   return (
@@ -54,14 +63,14 @@ function Edit() {
         <div>
           <label>
             <span>Title:</span>
-            <input type="text" {...register('title', pathValidation.title)} onChange={onChange} value={title} />
+            <input type="text" {...register('title', pathValidation.title)} onChange={onChange} />
             <p className="validation-error">{errors.title && errors.title.message}</p>
           </label>
         </div>
         <div>
           <label>
             <span>Description:</span>
-            <textarea {...register('description', pathValidation.description)} onChange={onChange} value={description} />
+            <textarea {...register('description', pathValidation.description)} onChange={onChange} />
             <p className="validation-error">{errors.description && errors.description.message}</p>
           </label>
         </div>

@@ -3,8 +3,19 @@
 .container {
 	> div {
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		gap:$space-xs;
+		h6 {
+			margin-top: 3px;
+		}
+		p {
+			font-size: 0.8rem;
+		}
+		
+	}
+	.description {
+		display: flex;
+		flex-direction: column;
 	}
 	a {
 		border: 2px solid $lpGreen;

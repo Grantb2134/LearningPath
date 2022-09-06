@@ -46,21 +46,7 @@ export const changeSettings = createAsyncThunk(
         userToken: localStorage.getItem('userToken'),
       },
     };
-    console.log(userData);
     const res = await api.put('/users/credentials/', userData, config);
-    return res.data;
-  },
-);
-
-export const setCurrentPath = createAsyncThunk(
-  'users/currentPath',
-  async (pathId) => {
-    const config = {
-      headers: {
-        userToken: localStorage.getItem('userToken'),
-      },
-    };
-    const res = await api.put(`/users/currentPath/${pathId}`, {}, config);
     return res.data;
   },
 );
@@ -118,16 +104,6 @@ const usersSlice = createSlice({
     [getUserByUsername.rejected]: (state) => {
       state.loading = false;
     },
-    [setCurrentPath.pending]: (state) => {
-      state.loading = true;
-    },
-    [setCurrentPath.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.user = action.payload;
-    },
-    [setCurrentPath.rejected]: (state) => {
-      state.loading = false;
-    },
     [changeSettings.pending]: (state) => {
       state.loading = true;
     },
@@ -166,8 +142,6 @@ export const usersSelectors = usersAdapter.getSelectors(
 );
 
 export const { setAllUsers } = usersSlice.actions;
-
-// Extract the action creators object and the reducer
 const { reducer } = usersSlice;
 
 export default reducer;

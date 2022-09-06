@@ -1,22 +1,28 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { getConceptsByPathId } from '../../slices/concepts';
+import { getPath } from '../../slices/paths';
 import Concepts from '../concept/Concepts';
-import Progress from '../layout/sidebar/Progress';
 import styles from './dashboard.module.scss';
 
 function Dashboard() {
   const dispatch = useDispatch();
-  const { concepts, loading } = useSelector((store) => store.concepts);
-  const { userInfo } = useSelector((store) => store.auth);
+  const { concepts } = useSelector((store) => store.concepts);
+  const { path, loading: loadingPath } = useSelector((store) => store.paths);
+  const { userInfo, currentPath } = useSelector((store) => store.auth);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (userInfo) {
-      dispatch(getConceptsByPathId(userInfo.currentPath));
+    if (!userInfo) navigate('/');
+    if (currentPath) {
+      dispatch(getConceptsByPathId(currentPath));
+      dispatch(getPath(currentPath));
     }
-  }, [userInfo]);
+  }, [currentPath]);
 
-  if (loading || concepts === null) {
+  if (loadingPath) {
     return (
       <div>Loading</div>
     );
@@ -24,15 +30,28 @@ function Dashboard() {
 
   return (
     <div className={styles.container}>
-      <h2>Current path title</h2>
-      <div>
+      {currentPath !== null ? (
+        <>
+          <h2>{path?path.title:'Current Path'}</h2>
+          <div>
+            <div>
+              <Concepts concepts={concepts} />
+            </div>
+            <div className={styles.sidebar}>
+              <div>
+                <h3>{userInfo.username}</h3>
+                {path
+                  ? <div>{path.description}</div>
+                  : null}
+              </div>
+            </div>
+          </div>
+        </>
+      ):(
         <div>
-          <Concepts concepts={concepts} />
+          You don&apos;t have a path selected as your current path.
         </div>
-        <div className={styles.sidebar}>
-          <Progress />
-        </div>
-      </div>
+      )}
     </div>
   );
 }

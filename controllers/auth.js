@@ -42,13 +42,14 @@ router.post(
         },
         attributes: ['id', 'password', 'currentPath'],
       });
-
+      // CHeck if user was found
       if (!user) {
         return res
           .status(400)
           .json({ errors: [{ msg: 'Invalid Credentials' }] });
       }
 
+      // Compare password from the request to the one in the DB with bcrypt
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
@@ -62,57 +63,7 @@ router.post(
           id: user.id,
         },
       };
-      jwt.sign(
-        payload,
-        process.env.jwtSecurity,
-        { expiresIn: '2 days' },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token, user: { id: user.id, currentPath: user.currentPath } });
-        },
-      );
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server error');
-    }
-  },
-);
-
-// @route    POST api/auth
-// @desc     Authenticate user & get token
-// @access   Public
-router.post(
-  '/',
-  async (req, res) => {
-    const { email, password } = req.body;
-
-    try {
-      const user = await User.findOne({
-        where: {
-          email,
-        },
-        attributes: ['id', 'password', 'currentPath'],
-      });
-
-      if (!user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'Invalid Credentials' }] });
-      }
-
-      const isMatch = await bcrypt.compare(password, user.password);
-
-      if (!isMatch) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'Invalid Credentials' }] });
-      }
-
-      const payload = {
-        user: {
-          id: user.id,
-        },
-      };
+      // Encrypt users session
       jwt.sign(
         payload,
         process.env.jwtSecurity,
@@ -160,9 +111,11 @@ router.post(
     } catch (err) {
       res.status(404).json('No user with that email');
     }
-
+    // Make a token
     const token = usePasswordHashToMakeToken(user.dataValues);
+    // Generate password reset URL
     const url = getPasswordResetURL(user, token);
+    // Email template
     const emailTemplate = resetPasswordTemplate(user, url);
     const sendEmail = () => {
       transporter.sendMail(emailTemplate, (err) => {
@@ -215,7 +168,9 @@ router.post(
     })
       .then((user) => {
         const secret = `${user.password}-${user.createdAt}`;
+        // Decode using the secret generate from the response user and token passed in params
         const payload = jwt.decode(token, secret);
+        // Verify if decoded payload ID matches the user ID in the database
         if (payload.id === user.id) {
           bcrypt.genSalt(10, (saltError, salt) => {
             if (saltError) return;
@@ -234,5 +189,38 @@ router.post(
       });
   },
 );
+
+// @route    PUT api/auth/currentPathId
+// @desc     Set current user path
+// @access   Private
+router.put('/currentPath/:id', auth, async (req, res) => {
+  try {
+    const currentUserPath = await User.update(
+      {
+        currentPath: req.params.id,
+      },
+      {
+        where: {
+          id: req.user.id,
+        },
+      },
+    );
+    if (currentUserPath) {
+      res.status(201).json({
+        message: 'User path set',
+        id: req.params.id,
+      });
+    } else {
+      res.status(404).json({
+        message: 'Current path not found',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'Internal Server Error',
+    });
+  }
+});
 
 module.exports = router;

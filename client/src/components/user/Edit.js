@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styles from './edit.module.scss';
 import { changeSettings } from '../../slices/users';
+import SettingsNav from './layout/SettingsNav';
 
 function Edit() {
   const [user, setUser] = useState({});
+  const { userInfo } = useSelector((store) => store.auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userInfo) navigate('/');
+  }, [userInfo]);
 
   const {
     password, username, twitter, github, website, bio,
@@ -20,12 +26,13 @@ function Edit() {
     e.preventDefault();
     dispatch(changeSettings({
       password, username, twitter, github, website, bio,
-    }));
-    navigate('/dashboard');
+    })).then(() => {
+      navigate('/dashboard');
+    });
   };
-
   return (
     <div className={styles.container}>
+      <SettingsNav />
       <form onSubmit={onSubmit}>
         <div>
           <label htmlFor="website">Website</label>

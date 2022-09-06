@@ -7,7 +7,11 @@
 	display: flex;
 	flex-direction: column-reverse;
 	gap: $space-md;
-	padding: 0 $space-md;
+
+	h2 {
+		margin-bottom: 15px;
+	}
+
 	ul {
 		> li {
 			display: flex;

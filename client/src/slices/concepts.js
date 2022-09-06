@@ -35,7 +35,7 @@ export const editConcept = createAsyncThunk(
         userToken: localStorage.getItem('userToken'),
       },
     };
-    const res = await api.put(`/concepts/${concept.concept.id}`, concept, config);
+    const res = await api.put(`/concepts/${concept.id}`, concept, config);
     return res.data;
   },
 );
@@ -123,9 +123,8 @@ const conceptsSlice = createSlice({
     [createConcept.pending]: (state) => {
       state.loading = true;
     },
-    [createConcept.fulfilled]: (state, { payload }) => {
+    [createConcept.fulfilled]: (state) => {
       state.loading = false;
-      state.loading = payload;
     },
     [createConcept.rejected]: (state) => {
       state.loading = false;
@@ -133,9 +132,8 @@ const conceptsSlice = createSlice({
     [editConcept.pending]: (state) => {
       state.loading = true;
     },
-    [editConcept.fulfilled]: (state, { payload }) => {
+    [editConcept.fulfilled]: (state) => {
       state.loading = false;
-      state.loading = payload;
     },
     [editConcept.rejected]: (state) => {
       state.loading = false;
@@ -147,9 +145,7 @@ export const conceptsSelectors = conceptsAdapter.getSelectors(
   (state) => state.concepts,
 );
 
-// Extract the action creators object and the reducer
 const { actions, reducer } = conceptsSlice;
-// Extract and export each action creator by name
 export const { setAllConcepts } = actions;
 
 export default reducer;

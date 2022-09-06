@@ -2,6 +2,9 @@
 
 .circle {
 	display: none;
+	animation: 10s in-out forwards;
+	animation-iteration-count: infinite;
+
 	@include for-tablet-up {
 		display: block;
 		width: 950px;
@@ -12,5 +15,23 @@
 		top: -600px;
 		left: -300px;
 		z-index:-1;
+	}
+		
+	
+	
+	@keyframes in-out {
+		0% {
+			width: 930px;
+			height: 930px;
+		}
+		50% {
+			width: 950px;
+			height: 950px;
+		}
+		100% {
+			width: 930px;
+			height: 930px;
+			/* but starting to "disappear" from left to right, just like the way it appears */
+		}
 	}
 }

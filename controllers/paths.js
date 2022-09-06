@@ -28,6 +28,30 @@ router.get('/', async (req, res) => {
   }
 });
 
+// @route    GET api/paths/featured
+// @desc     Get featured paths
+// @access   Public   Public
+router.get('/featured', async (req, res) => {
+  try {
+    const allPaths = await Path.findAll({
+      where: { featured: true },
+      limit: 3,
+    });
+    if (allPaths) {
+      res.status(201).json(allPaths);
+    } else {
+      res.status(404).json({
+        message: 'No Paths found in DB',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'Internal Server Error',
+    });
+  }
+});
+
 // @route    GET api/paths/:id
 // @desc     Get path by ID
 // @access   Public   Public
@@ -104,7 +128,6 @@ router.post(
     }
   },
   auth,
-
   async (req, res) => {
     const {
       title, description,
@@ -164,10 +187,9 @@ router.put(
         { title, description },
         { where: { id: req.params.id } },
       );
-
       if (editPath) {
         res.status(201).json({
-          message: 'Updated post',
+          message: 'Updated Path',
         });
       } else {
         res.status(404).json({
@@ -201,6 +223,70 @@ router.delete('/:id', auth, async (req, res) => {
     } else {
       res.status(404).json({
         message: 'Unable to delete path',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'Internal Server Error',
+    });
+  }
+});
+
+// @route    PUT api/paths/feature/:id
+// @desc     Set featured path by path ID
+// @access   Private
+router.put('/feature/:id', auth, async (req, res) => {
+  try {
+    const setFeatured = await Path.update(
+      {
+        featured: true,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      },
+    );
+    if (setFeatured) {
+      res.status(201).json({
+        message: 'Path is set as featured',
+      });
+    } else {
+      res.status(404).json({
+        message: 'Current path not found',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'Internal Server Error',
+    });
+  }
+});
+
+// @route    PUT api/paths/exclude/:id
+// @desc     Unset featured path by path ID
+// @access   Private
+router.put('/exclude/:id', auth, async (req, res) => {
+  try {
+    const setFeatured = await Path.update(
+      {
+        featured: false,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      },
+    );
+    if (setFeatured) {
+      res.status(201).json({
+        message: 'Path is unset as featured',
+      });
+    } else {
+      res.status(404).json({
+        message: 'Current path not found',
       });
     }
   } catch (error) {

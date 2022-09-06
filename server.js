@@ -9,8 +9,11 @@ const content = require('./controllers/content');
 const app = express();
 const PORT = 5006;
 app.use(cors());
+
+// Initializing Middleware
 app.use(express.json());
 
+// Defining Routes
 app.use('/api/auth', auth);
 app.use('/api/users', users);
 app.use('/api/paths', paths);

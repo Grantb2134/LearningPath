@@ -4,22 +4,22 @@
 	margin: $space-lg auto 0 auto;
 	width: 100%;
 	padding: 0 $space-md;
+
 	h2 {
 		margin-bottom: 15px;
 	}
+
 	> div {
 		display: flex;
 		flex-direction: column-reverse;
 		gap: $space-md;
 	}
 
-	@include for-desktop-up {
-		width: 950px;
-
-		> div {
-			display: grid;
-			grid-template-columns: 1fr 250px;
-			gap: $space-md;
+	
+	@include for-phone-only {
+		h2 {
+			display: flex;
+			justify-content: center;
 		}
 	}
 
@@ -29,10 +29,17 @@
 			justify-content: center;
 		}
 	}
-	@include for-phone-only {
+
+	@include for-desktop-up {
+		width: 950px;
 		h2 {
-			display: flex;
-			justify-content: center;
+			justify-content: flex-start;
+		}
+		
+		> div {
+			display: grid;
+			grid-template-columns: 1fr 250px;
+			gap: $space-md;
 		}
 	}
 }

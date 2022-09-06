@@ -1,9 +1,9 @@
 @import '../../styles/globals.scss';
 
 .body {
-	display: flex;
-	justify-content: space-around;
-	margin: $space-lg auto 0 auto;
+	display: flex;    
+	gap: 50px;
+	justify-content: center;
 	width: 950px;
 	div {
 		h2 {
@@ -32,14 +32,21 @@
 		}
 	}
 	@include for-tablet-up {
-		max-width: 750px;
+		display: flex;
+		justify-content: center;
+		max-width: 100%;
+		margin: $space-lg auto 0 auto;
 		> div {
 			width: 100%;
-			margin: auto;
+		}
+		.featured > div {
+			width: 100%;
 		}
 	}
 	@include for-desktop-up {
-
+		> div {
+			margin: 0 auto;	
+		}
 	}
 
 }
