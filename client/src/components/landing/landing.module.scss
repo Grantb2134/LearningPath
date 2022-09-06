@@ -47,6 +47,11 @@
 		> div {
 			margin: 0 auto;	
 		}
+		> :first-child {
+			h2 {
+				margin-left: 45px;
+			}
+		}
 	}
 
 }
