@@ -1,3 +1,5 @@
+[View Live](http://34.234.173.82/)
+
 # Introduction
 LearningPath is a platform where users can find and share learning curricula.
 
